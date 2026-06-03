@@ -5,6 +5,7 @@
   right: 0;
   z-index: 100;
   height: var(--nav-h);
+  background: transparent;
 }
 
 /* Inner wrapper constrains logo + links to 1400px, centered */
@@ -12,12 +13,13 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 80px;
-  height: 100%;
+  height: var(--nav-h);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+/* ── Logo ── */
 .logo {
   font-family: 'Instrument Serif', Georgia, serif;
   font-size: 28px;
@@ -37,6 +39,7 @@
   to   { transform: perspective(400px) rotateY(360deg); }
 }
 
+/* ── Desktop links ── */
 .links {
   list-style: none;
   display: flex;
@@ -52,7 +55,6 @@
   padding-bottom: 2px;
 }
 
-/* Underline — slides in from left on hover */
 .links a::after {
   content: '';
   position: absolute;
@@ -66,18 +68,10 @@
   transition: transform 0.24s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.links a:hover::after {
-  transform: scaleX(1);
-}
+.links a:hover::after { transform: scaleX(1); }
 
-/* Active link: bold + underline always visible */
-.links a.active {
-  font-weight: 600;
-}
-
-.links a.active::after {
-  transform: scaleX(1);
-}
+.links a.active { font-weight: 600; }
+.links a.active::after { transform: scaleX(1); }
 
 .resumeLink {
   display: inline-flex;
@@ -85,12 +79,117 @@
   gap: 4px;
 }
 
+/* ── Hamburger button — hidden on desktop ── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.bar {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--black);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  transform-origin: center;
+}
+
+/* X state */
+.barTop  { transform: translateY(6.5px) rotate(45deg); }
+.barMid  { opacity: 0; transform: scaleX(0); }
+.barBot  { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ── Mobile drawer ── */
+.drawer {
+  position: fixed;
+  top: var(--nav-h);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(214, 214, 214, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: flex-start;
+  padding: 48px 24px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 99;
+}
+
+.drawerOpen {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.drawerLinks {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.drawerLinks a {
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--black);
+  letter-spacing: -0.01em;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.drawerLinks a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--black);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.drawerLinks a.active {
+  font-weight: 600;
+}
+
+.drawerLinks a.active::after,
+.drawerLinks a:hover::after {
+  transform: scaleX(1);
+}
+
+.drawerLinks .resumeLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── Responsive ── */
 @media (max-width: 640px) {
   .inner {
     padding: 0 24px;
   }
 
+  /* Hide desktop links, show hamburger */
   .links {
-    gap: 20px;
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
   }
 }
