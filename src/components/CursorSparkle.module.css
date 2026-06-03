@@ -1,0 +1,33 @@
+.layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.sparkle {
+  position: absolute;
+  display: block;
+  line-height: 1;
+  transform: translate(-50%, -50%);
+  animation: drift linear forwards;
+  text-shadow:
+    0 0 4px currentColor,
+    0 0 10px currentColor;
+  will-change: transform, opacity;
+}
+
+@keyframes drift {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate(0, 0) scale(1.2);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) scale(0.1);
+  }
+}

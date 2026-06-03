@@ -1,0 +1,32 @@
+export const projects = [
+  {
+    id: 1,
+    index: '01',
+    title: 'Your Project Title',
+    category: 'Product Design',
+    year: '2024',
+    tldr: 'A short summary of the key design problem and decision. What was broken, what insight unlocked the solution, and what changed as a result.',
+    images: [],
+    slug: 'project-one',
+  },
+  {
+    id: 2,
+    index: '02',
+    title: 'Another Project',
+    category: 'UI/UX',
+    year: '2023',
+    tldr: 'Describe the core challenge and your approach. Keep it to 2–3 sentences — just enough for the reader to know if they want to go deeper.',
+    images: [],
+    slug: 'project-two',
+  },
+  {
+    id: 3,
+    index: '03',
+    title: 'One More Case Study',
+    category: 'Product Strategy',
+    year: '2023',
+    tldr: 'The context that made this project interesting, the constraints you worked within, and the outcome that mattered.',
+    images: [],
+    slug: 'project-three',
+  },
+];

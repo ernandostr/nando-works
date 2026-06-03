@@ -1,0 +1,163 @@
+.portfolio {
+  padding: 40px 80px 160px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Giant display heading — right-aligned */
+.sectionHeading {
+  text-align: right;
+  margin-bottom: 80px;
+}
+
+.sectionTitle {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: clamp(80px, 13vw, 168px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  color: var(--black);
+}
+
+.sectionSub {
+  margin-top: 16px;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--grey-400);
+}
+
+/* ── Cards ── */
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 52px 0;
+}
+
+.card:last-child {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+/* Metadata row */
+.cardMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--grey-400);
+  margin-bottom: 20px;
+}
+
+.cardIndex {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--grey-400);
+}
+
+/* Two-column body: title left, content right */
+.cardBody {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 48px;
+  align-items: start;
+  margin-bottom: 36px;
+}
+
+.cardTitle {
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  line-height: 1.25;
+}
+
+.cardRight {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tldr {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--grey-600);
+}
+
+/* Read more */
+.readMore {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--black);
+  border-bottom: 1px solid var(--black);
+  padding-bottom: 1px;
+  transition: opacity 0.15s ease;
+  align-self: flex-start;
+}
+
+.readMore:hover {
+  opacity: 0.45;
+}
+
+/* ── Image grid ── */
+.images {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* First image — full-width 16:9 */
+.imageHero,
+.placeholderHero {
+  grid-column: 1 / -1;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 6px;
+}
+
+.imageHero {
+  object-fit: cover;
+}
+
+.placeholderHero {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* Images 2–5 — 5:4 */
+.imageSquare,
+.placeholderSquare {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  border-radius: 6px;
+}
+
+.imageSquare {
+  object-fit: cover;
+}
+
+.placeholderSquare {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .portfolio {
+    padding: 32px 24px 120px;
+  }
+
+  .cardBody {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .cardTitle {
+    font-size: 20px;
+  }
+}

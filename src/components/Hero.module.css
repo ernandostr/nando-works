@@ -1,0 +1,102 @@
+.hero {
+  padding: 148px 80px 96px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.intro {
+  display: grid;
+  grid-template-columns: 164px 1fr;  /* 140px avatar + ~24px clearance for sun bleed */
+  gap: 40px;
+  max-width: 720px;
+  align-items: start;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.headline {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--black);
+}
+
+.headline strong {
+  font-weight: 600;
+}
+
+/* Bold block cursor — classic CLI style */
+.cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  background: var(--black);
+  vertical-align: text-bottom;
+  margin-left: 3px;
+  border-radius: 1px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--black);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22C55E;
+  flex-shrink: 0;
+}
+
+.links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.links li a {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--grey-600);
+  transition: color 0.15s ease;
+}
+
+.links li a:hover {
+  color: var(--black);
+}
+
+.email {
+  color: var(--grey-600);
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 116px 24px 72px;
+  }
+
+  /* Stack avatar above text on very small screens */
+  .intro {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    justify-items: start;
+  }
+
+  .headline {
+    font-size: 19px;
+  }
+}

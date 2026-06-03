@@ -1,0 +1,36 @@
+.layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9997;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  /* zero-size point centred on the click */
+  width: 1px;
+  height: 1px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  animation: water 0.9s ease-out forwards;
+}
+
+/*
+  Three box-shadow rings expand outward from a single element.
+  No extra DOM — just one div per click.
+*/
+@keyframes water {
+  0% {
+    box-shadow:
+      0 0 0 0px  rgba(0, 0, 0, 0.30),
+      0 0 0 0px  rgba(0, 0, 0, 0.18),
+      0 0 0 0px  rgba(0, 0, 0, 0.08);
+  }
+  100% {
+    box-shadow:
+      0 0 0 60px  rgba(0, 0, 0, 0),
+      0 0 0 100px rgba(0, 0, 0, 0),
+      0 0 0 140px rgba(0, 0, 0, 0);
+  }
+}
