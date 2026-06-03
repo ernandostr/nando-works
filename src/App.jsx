@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Lenis from 'lenis';
 import Nav from './components/Nav.jsx';
 import Hero from './components/Hero.jsx';
 import Portfolio from './components/Portfolio.jsx';
@@ -41,9 +42,28 @@ function useLinkTransition(setPath) {
   }, [setPath]);
 }
 
+function useLenis() {
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    return () => lenis.destroy();
+  }, []);
+}
+
 export default function App() {
   const [path, setPath] = useState(window.location.pathname);
 
+  useLenis();
   useLinkTransition(setPath);
 
   // Handle browser back/forward
