@@ -94,23 +94,25 @@ export default function Hero() {
             <li><a href="https://linkedin.com/in/fernandosianturi" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
             <li><a href="https://dribbble.com/fernandosianturi" target="_blank" rel="noopener noreferrer">Dribbble</a></li>
             <li>
-              <a href="mailto:fernandoostr@gmail.com" className={styles.email}>
-                → fernandoostr@gmail.com
+              <a href="mailto:ernandostr@gmail.com" className={styles.email}>
+                → ernandostr@gmail.com
               </a>
             </li>
           </ul>
 
           <div className={styles.clients}>
             <p className={styles.clientsLabel}>Companies & clients</p>
-            <div className={styles.logoStrip}>
-              {LOGOS.map((logo) => (
-                <img
-                  key={logo.alt}
-                  src={logo.src}
-                  alt={logo.alt}
-                  className={styles.logo}
-                />
-              ))}
+            <div className={styles.logoTrack}>
+              <div className={styles.logoStrip}>
+                {[...LOGOS, ...LOGOS].map((logo, i) => (
+                  <img
+                    key={`${logo.alt}-${i}`}
+                    src={logo.src}
+                    alt={logo.alt}
+                    className={styles.logo}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 

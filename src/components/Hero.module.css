@@ -90,7 +90,7 @@
 .clients {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   padding-top: 8px;
 }
 
@@ -102,24 +102,41 @@
   color: var(--grey-400);
 }
 
+/* Overflow mask — hides logos outside the visible area */
+.logoTrack {
+  overflow: hidden;
+  width: 100%;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+/* Duplicated strip that scrolls left-to-right */
 .logoStrip {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: 16px 20px;
+  gap: 40px;
+  width: max-content;
+  animation: marquee 18s linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0%); }
 }
 
 .logo {
-  height: 20px;
+  height: 80px;
   width: auto;
-  max-width: 80px;
+  max-width: 160px;
   object-fit: contain;
-  filter: grayscale(100%) opacity(0.45);
+  flex-shrink: 0;
+  filter: grayscale(100%) opacity(0.7);
   transition: filter 0.2s ease;
 }
 
 .logo:hover {
-  filter: grayscale(100%) opacity(0.75);
+  filter: grayscale(100%) opacity(0.9);
 }
 
 @media (max-width: 640px) {
