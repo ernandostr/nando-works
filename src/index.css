@@ -23,6 +23,8 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
+  /* Explicit background on html prevents dark browser chrome bleeding through */
+  background-color: #D6D6D6;
 }
 
 body {
@@ -36,6 +38,34 @@ body {
     radial-gradient(ellipse 35% 30% at 75% 5%,  rgba(255,255,255,0.12) 0%, transparent 50%);
   color: var(--black);
   overflow-x: hidden;
+}
+
+/* Force light mode — overrides Brave / Safari forced dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: light;
+    --white: #FFFFFF;
+    --black: #0C0C0C;
+    --grey-100: #F5F5F5;
+    --grey-200: #E8E8E8;
+    --grey-400: #A0A0A0;
+    --grey-600: #5A5A5A;
+    --grey-800: #2A2A2A;
+  }
+
+  html {
+    background-color: #D6D6D6 !important;
+  }
+
+  body {
+    background-color: #D6D6D6 !important;
+    background-image:
+      radial-gradient(ellipse 90% 80% at -5% -5%, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.30) 35%, transparent 60%),
+      radial-gradient(ellipse 55% 50% at 8% 18%,  rgba(255,255,255,0.45) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 55% at 92% 88%, rgba(180,180,180,0.20) 0%, transparent 60%),
+      radial-gradient(ellipse 35% 30% at 75% 5%,  rgba(255,255,255,0.12) 0%, transparent 50%) !important;
+    color: #0C0C0C !important;
+  }
 }
 
 a {
