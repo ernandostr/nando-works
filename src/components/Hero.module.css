@@ -35,7 +35,7 @@
   width: 0.44em;
   height: 0.84em;
   background: var(--black);
-  vertical-align: text-bottom;
+  vertical-align: middle;
   margin-left: 3px;
   border-radius: 1px;
   animation: blink 1s step-end infinite;
