@@ -7,6 +7,7 @@ import About from './screens/About.jsx';
 import Footer from './components/Footer.jsx';
 import CursorSparkle from './components/CursorSparkle.jsx';
 import RippleCanvas from './components/RippleCanvas.jsx';
+import RulerLine from './components/RulerLine.jsx';
 
 function useLinkTransition(setPath) {
   useEffect(() => {
@@ -79,6 +80,7 @@ export default function App() {
     <>
       <CursorSparkle />
       <RippleCanvas />
+      <RulerLine />
       <Nav path={path} />
       <main>
         {isAbout ? (

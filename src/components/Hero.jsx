@@ -100,22 +100,20 @@ export default function Hero() {
             </li>
           </ul>
 
-          <div className={styles.clients}>
-            <p className={styles.clientsLabel}>Companies & clients</p>
-            <div className={styles.logoTrack}>
-              <div className={styles.logoStrip}>
-                {[...LOGOS, ...LOGOS].map((logo, i) => (
-                  <img
-                    key={`${logo.alt}-${i}`}
-                    src={logo.src}
-                    alt={logo.alt}
-                    className={styles.logo}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
+        </div>
+      </div>
 
+      {/* Full-width logo marquee */}
+      <div className={styles.logoTrack}>
+        <div className={styles.logoStrip}>
+          {[...LOGOS, ...LOGOS].map((logo, i) => (
+            <img
+              key={`${logo.alt}-${i}`}
+              src={logo.src}
+              alt={logo.alt}
+              className={styles.logo}
+            />
+          ))}
         </div>
       </div>
     </section>
