@@ -20,14 +20,13 @@
 }
 
 /* ── Logo ── */
-/* Wrapper — holds perspective so Safari applies it correctly to the child */
+/* Wrapper — perspective must be on the PARENT in Safari */
 .logoLink {
   display: inline-block;
   perspective: 400px;
   -webkit-perspective: 400px;
 }
 
-/* Animated span — GPU-pinned so Safari re-renders can't drop the layer */
 .logo {
   font-family: 'Instrument Serif', Georgia, serif;
   font-size: 28px;
@@ -39,21 +38,20 @@
     1px 1px 0 rgba(0, 0, 0, 0.18),
     2px 2px 0 rgba(0, 0, 0, 0.10),
     3px 3px 0 rgba(0, 0, 0, 0.05);
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
   animation: logoSpin 9s linear infinite;
   -webkit-animation: logoSpin 9s linear infinite;
 }
 
+/* translateZ(0) in every keyframe keeps Safari's GPU layer alive
+   even when nearby DOM updates happen (e.g. Hero typing) */
 @keyframes logoSpin {
-  from { transform: rotateY(0deg); }
-  to   { transform: rotateY(-360deg); }
+  from { transform: translateZ(0) rotateY(0deg); }
+  to   { transform: translateZ(0) rotateY(-360deg); }
 }
 
 @-webkit-keyframes logoSpin {
-  from { -webkit-transform: rotateY(0deg); }
-  to   { -webkit-transform: rotateY(-360deg); }
+  from { -webkit-transform: translateZ(0) rotateY(0deg); }
+  to   { -webkit-transform: translateZ(0) rotateY(-360deg); }
 }
 
 /* ── Desktop links ── */

@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import styles from './Nav.module.css';
 
-export default function Nav({ path = '/' }) {
+function Nav({ path = '/' }) {
   const [open, setOpen] = useState(false);
 
   // Close menu on route change
@@ -78,3 +78,7 @@ export default function Nav({ path = '/' }) {
     </nav>
   );
 }
+
+// memo prevents Nav re-rendering when Hero's typing state changes,
+// which stops Safari from dropping the logo's GPU compositing layer
+export default memo(Nav);
