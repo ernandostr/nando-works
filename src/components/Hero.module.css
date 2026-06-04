@@ -16,6 +16,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-width: 0; /* prevent grid blowout from logo strip max-content */
 }
 
 .headline {
@@ -110,7 +111,7 @@
   mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
 }
 
-/* Duplicated strip that scrolls left-to-right */
+/* Duplicated strip — scrolls right to left, loops seamlessly */
 .logoStrip {
   display: flex;
   flex-wrap: nowrap;
@@ -121,8 +122,8 @@
 }
 
 @keyframes marquee {
-  from { transform: translateX(-50%); }
-  to   { transform: translateX(0%); }
+  from { transform: translateX(0%); }
+  to   { transform: translateX(-50%); }
 }
 
 .logo {
