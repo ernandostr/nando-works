@@ -38,6 +38,7 @@
   vertical-align: baseline;
   margin-left: 3px;
   margin-bottom: 0.05em;
+  transform: translateY(2px);
   border-radius: 1px;
   animation: blink 1s step-end infinite;
 }
