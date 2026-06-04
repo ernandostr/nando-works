@@ -2,10 +2,32 @@ import { useState, useEffect, useRef } from 'react';
 import Avatar from './Avatar.jsx';
 import styles from './Hero.module.css';
 
+import logoBukalapak    from '../assets/client and company logo/1. bukalapak.png';
+import logoMRT          from '../assets/client and company logo/2. mrt jakarta.png';
+import logoParagon      from '../assets/client and company logo/3. paragon.png';
+import logoKahf         from '../assets/client and company logo/4. kahf.png';
+import logoKemenparekraf from '../assets/client and company logo/5. kemenparekraf.png';
+import logoEfishery     from '../assets/client and company logo/6. efishery.png';
+import logoClarion      from '../assets/client and company logo/7. clarion events.png';
+import logoIllume       from '../assets/client and company logo/8. illume.png';
+import logoAceplace     from '../assets/client and company logo/9. aceplace.png';
+
+const LOGOS = [
+  { src: logoBukalapak,     alt: 'Bukalapak' },
+  { src: logoMRT,           alt: 'MRT Jakarta' },
+  { src: logoParagon,       alt: 'Paragon' },
+  { src: logoKahf,          alt: 'Kahf' },
+  { src: logoKemenparekraf, alt: 'Kemenparekraf' },
+  { src: logoEfishery,      alt: 'eFishery' },
+  { src: logoClarion,       alt: 'Clarion Events' },
+  { src: logoIllume,        alt: 'Illume' },
+  { src: logoAceplace,      alt: 'Aceplace' },
+];
+
 const FULL_TEXT =
   "Hey, I'm Fernando, a product designer (UI/UX) with over 8 years of experience helping founders / product owners to translate their vision into product digital";
 const BOLD_PHRASE = 'translate their vision';
-const TYPING_SPEED = 32; // ms per character
+const TYPING_SPEED = 32;
 
 function renderText(text) {
   const idx = text.indexOf(BOLD_PHRASE);
@@ -24,7 +46,6 @@ export default function Hero() {
   const [done, setDone] = useState(false);
   const timerRef = useRef(null);
 
-  // Typing animation on mount
   useEffect(() => {
     let i = 0;
     timerRef.current = setInterval(() => {
@@ -38,7 +59,6 @@ export default function Hero() {
     return () => clearInterval(timerRef.current);
   }, []);
 
-  // Editable once typing is done
   useEffect(() => {
     if (!done) return;
     const onKey = (e) => {
@@ -46,7 +66,7 @@ export default function Hero() {
         e.preventDefault();
         setText((prev) => prev.slice(0, -1));
       } else if (e.key.length === 1 && !e.metaKey && !e.ctrlKey) {
-        e.preventDefault(); // stops Space from scrolling the page
+        e.preventDefault();
         setText((prev) => prev + e.key);
       }
     };
@@ -79,6 +99,20 @@ export default function Hero() {
               </a>
             </li>
           </ul>
+
+          <div className={styles.clients}>
+            <p className={styles.clientsLabel}>Companies & clients</p>
+            <div className={styles.logoStrip}>
+              {LOGOS.map((logo) => (
+                <img
+                  key={logo.alt}
+                  src={logo.src}
+                  alt={logo.alt}
+                  className={styles.logo}
+                />
+              ))}
+            </div>
+          </div>
 
         </div>
       </div>
