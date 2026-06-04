@@ -16,7 +16,9 @@ export default function Nav({ path = '/' }) {
   return (
     <nav className={styles.nav}>
       <div className={styles.inner}>
-        <a href="/" className={styles.logo}>nando.works</a>
+        <a href="/" className={styles.logoLink}>
+          <span className={styles.logo}>nando.works</span>
+        </a>
 
         {/* Desktop links */}
         <ul className={styles.links}>
