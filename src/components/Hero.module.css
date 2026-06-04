@@ -33,10 +33,11 @@
 .cursor {
   display: inline-block;
   width: 0.44em;
-  height: 0.84em;
+  height: 0.72em;
   background: var(--black);
-  vertical-align: middle;
+  vertical-align: baseline;
   margin-left: 3px;
+  margin-bottom: 0.05em;
   border-radius: 1px;
   animation: blink 1s step-end infinite;
 }
