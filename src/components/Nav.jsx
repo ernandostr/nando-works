@@ -24,7 +24,7 @@ export default function Nav({ path = '/' }) {
           <li><a href="/about" className={path === '/about' ? styles.active : ''}>About me</a></li>
           <li>
             <a
-              href="https://drive.google.com/your-resume-link"
+              href="https://drive.google.com/drive/u/1/folders/1UFVU5r4QyiPhv8yWBoTKDfv20Lo9sLpu"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.resumeLink}
@@ -58,7 +58,7 @@ export default function Nav({ path = '/' }) {
           <li><a href="/about" className={path === '/about' ? styles.active : ''} onClick={() => setOpen(false)}>About me</a></li>
           <li>
             <a
-              href="https://drive.google.com/your-resume-link"
+              href="https://drive.google.com/drive/u/1/folders/1UFVU5r4QyiPhv8yWBoTKDfv20Lo9sLpu"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.resumeLink}

@@ -32,8 +32,8 @@
 /* Bold block cursor — classic CLI style */
 .cursor {
   display: inline-block;
-  width: 0.55em;
-  height: 1.05em;
+  width: 0.44em;
+  height: 0.84em;
   background: var(--black);
   vertical-align: text-bottom;
   margin-left: 3px;
