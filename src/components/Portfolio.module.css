@@ -160,4 +160,14 @@
   .cardTitle {
     font-size: 20px;
   }
+
+  /* 1 image per row on mobile */
+  .images {
+    grid-template-columns: 1fr;
+  }
+
+  .imageSquare,
+  .placeholderSquare {
+    aspect-ratio: 16 / 9;
+  }
 }
