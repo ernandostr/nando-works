@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import styles from './LogoMarquee.module.css';
 
+
 import logoBukalapak     from '../assets/client and company logo/1. bukalapak.png';
 import logoMRT           from '../assets/client and company logo/2. mrt jakarta.png';
 import logoParagon       from '../assets/client and company logo/3. paragon.png';
@@ -30,32 +31,38 @@ export default function LogoMarquee() {
     const strip = stripRef.current;
     if (!strip) return;
 
-    // When iOS suspends and restores a tab, CSS animation compositing layers
-    // are dropped. Force a restart by briefly removing the animation-name,
-    // triggering a reflow, then re-applying it.
-    const restartAnimation = () => {
-      strip.style.animationName = 'none';
-      void strip.offsetWidth; // force reflow
-      strip.style.animationName = '';
+    // requestAnimationFrame is natively paused when the OS suspends the browser
+    // and automatically resumes when the browser comes back to foreground.
+    // This is more reliable than CSS animations + visibilitychange on iOS Safari,
+    // which loses its GPU compositing layer on suspend/restore.
+    let x = 0;
+    let rafId;
+    let lastTime;
+    let halfWidth = 0;
+    const DURATION_MS = 18000; // match the original 18s CSS animation speed
+
+    const tick = (now) => {
+      // Compute halfWidth on the first tick (after layout/images are ready)
+      if (!lastTime) {
+        lastTime = now;
+        halfWidth = strip.scrollWidth / 2;
+      }
+
+      // Cap delta to 100ms so a long OS suspension doesn't cause a position jump
+      const delta = Math.min(now - lastTime, 100);
+      lastTime = now;
+
+      if (halfWidth > 0) {
+        x -= (halfWidth / DURATION_MS) * delta;
+        if (x < -halfWidth) x += halfWidth;
+        strip.style.transform = `translate3d(${x}px, 0, 0)`;
+      }
+
+      rafId = requestAnimationFrame(tick);
     };
 
-    // visibilitychange: fires when the user switches apps / backgrounds Safari
-    const onVisibilityChange = () => {
-      if (document.visibilityState === 'visible') restartAnimation();
-    };
-
-    // pageshow with persisted:true fires when Safari restores from bfcache
-    const onPageShow = (e) => {
-      if (e.persisted) restartAnimation();
-    };
-
-    document.addEventListener('visibilitychange', onVisibilityChange);
-    window.addEventListener('pageshow', onPageShow);
-
-    return () => {
-      document.removeEventListener('visibilitychange', onVisibilityChange);
-      window.removeEventListener('pageshow', onPageShow);
-    };
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
   }, []);
 
   return (

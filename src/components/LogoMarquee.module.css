@@ -16,19 +16,9 @@
   align-items: center;
   gap: 40px;
   width: max-content;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-animation: marquee 18s linear infinite;
-  animation: marquee 18s linear infinite;
-}
-
-@-webkit-keyframes marquee {
-  from { -webkit-transform: translate3d(0, 0, 0);      transform: translate3d(0, 0, 0); }
-  to   { -webkit-transform: translate3d(-50%, 0, 0);   transform: translate3d(-50%, 0, 0); }
-}
-@keyframes marquee {
-  from { -webkit-transform: translate3d(0, 0, 0);      transform: translate3d(0, 0, 0); }
-  to   { -webkit-transform: translate3d(-50%, 0, 0);   transform: translate3d(-50%, 0, 0); }
+  /* Transform is driven by requestAnimationFrame in LogoMarquee.jsx —
+     no CSS animation here, so iOS has no GPU compositing layer to drop. */
+  will-change: transform;
 }
 
 .logo {
