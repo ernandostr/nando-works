@@ -1,0 +1,60 @@
+/* Completely independent of Hero — lives as a sibling in the DOM
+   so Hero's typing re-renders cannot touch this compositing layer. */
+
+.logoTrack {
+  overflow: hidden;
+  width: 100%;
+  margin-top: 48px;
+  margin-bottom: 96px;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+}
+
+.logoStrip {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 40px;
+  width: max-content;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-animation: marquee 18s linear infinite;
+  animation: marquee 18s linear infinite;
+}
+
+@-webkit-keyframes marquee {
+  from { -webkit-transform: translate3d(0, 0, 0);      transform: translate3d(0, 0, 0); }
+  to   { -webkit-transform: translate3d(-50%, 0, 0);   transform: translate3d(-50%, 0, 0); }
+}
+@keyframes marquee {
+  from { -webkit-transform: translate3d(0, 0, 0);      transform: translate3d(0, 0, 0); }
+  to   { -webkit-transform: translate3d(-50%, 0, 0);   transform: translate3d(-50%, 0, 0); }
+}
+
+.logo {
+  height: 80px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: grayscale(100%) opacity(0.9);
+  transition: filter 0.2s ease;
+}
+
+.logo:hover {
+  filter: grayscale(100%) opacity(0.9);
+}
+
+@media (max-width: 640px) {
+  .logoTrack {
+    margin-bottom: 72px;
+    /* Safari iOS: mask-image + overflow:hidden on the same element hides content */
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .logo {
+    filter: grayscale(100%);
+    opacity: 0.75;
+  }
+}

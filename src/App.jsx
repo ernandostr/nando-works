@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Lenis from 'lenis';
 import Nav from './components/Nav.jsx';
 import Hero from './components/Hero.jsx';
+import LogoMarquee from './components/LogoMarquee.jsx';
 import Portfolio from './components/Portfolio.jsx';
 import About from './screens/About.jsx';
 import Footer from './components/Footer.jsx';
@@ -88,6 +89,7 @@ export default function App() {
         ) : (
           <>
             <Hero />
+            <LogoMarquee />
             <Portfolio />
           </>
         )}
