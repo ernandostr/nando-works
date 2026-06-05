@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import styles from './LogoMarquee.module.css';
 
 import logoBukalapak     from '../assets/client and company logo/1. bukalapak.png';
@@ -23,9 +24,43 @@ const LOGOS = [
 ];
 
 export default function LogoMarquee() {
+  const stripRef = useRef(null);
+
+  useEffect(() => {
+    const strip = stripRef.current;
+    if (!strip) return;
+
+    // When iOS suspends and restores a tab, CSS animation compositing layers
+    // are dropped. Force a restart by briefly removing the animation-name,
+    // triggering a reflow, then re-applying it.
+    const restartAnimation = () => {
+      strip.style.animationName = 'none';
+      void strip.offsetWidth; // force reflow
+      strip.style.animationName = '';
+    };
+
+    // visibilitychange: fires when the user switches apps / backgrounds Safari
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'visible') restartAnimation();
+    };
+
+    // pageshow with persisted:true fires when Safari restores from bfcache
+    const onPageShow = (e) => {
+      if (e.persisted) restartAnimation();
+    };
+
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    window.addEventListener('pageshow', onPageShow);
+
+    return () => {
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      window.removeEventListener('pageshow', onPageShow);
+    };
+  }, []);
+
   return (
     <div className={styles.logoTrack}>
-      <div className={styles.logoStrip}>
+      <div ref={stripRef} className={styles.logoStrip}>
         {[...LOGOS, ...LOGOS].map((logo, i) => (
           <img
             key={`${logo.alt}-${i}`}
