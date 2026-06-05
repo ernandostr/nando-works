@@ -2,12 +2,12 @@ export const projects = [
   {
     id: 1,
     index: '01',
-    title: 'Your Project Title',
+    title: 'Defining Key Visual and Designing Interface For Kahf Decode',
     category: 'Product Design',
-    year: '2024',
-    tldr: 'A short summary of the key design problem and decision. What was broken, what insight unlocked the solution, and what changed as a result.',
+    year: '2025',
+    tldr: "Kahf's initial designs for their AI-powered mall kiosk — covering skin analysis, hairstyle detection, and outfit recommendations — felt disconnected from the brand's premium identity. In 3 weeks, I rebuilt the visual direction and interface from scratch, unifying flows across three AI features while navigating four stakeholders with competing visions.",
     images: [],
-    slug: 'project-one',
+    slug: 'kahf-decode',
   },
   {
     id: 2,

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, memo } from 'react';
 import Avatar from './Avatar.jsx';
 import styles from './Hero.module.css';
 
@@ -24,19 +24,39 @@ const LOGOS = [
   { src: logoAceplace,      alt: 'Aceplace' },
 ];
 
+/* Memoised so React never touches this subtree during typing re-renders.
+   Safari iOS drops GPU compositing layers on every DOM mutation — keeping
+   the marquee in its own stable tree prevents that entirely. */
+const LogoMarquee = memo(function LogoMarquee() {
+  return (
+    <div className={styles.logoTrack}>
+      <div className={styles.logoStrip}>
+        {[...LOGOS, ...LOGOS].map((logo, i) => (
+          <img
+            key={`${logo.alt}-${i}`}
+            src={logo.src}
+            alt={logo.alt}
+            className={styles.logo}
+          />
+        ))}
+      </div>
+    </div>
+  );
+});
+
 const FULL_TEXT =
-  "Hey, I'm Fernando, a product designer (UI/UX) with over 8 years of experience helping founders / product owners to translate their vision into product digital";
-const BOLD_PHRASE = 'translate their vision';
+  "Hi, I'm Fernando, a product designer (UI/UX) with over 8 years of experience helping founders and product owners translate their vision into digital products.";
+const SERIF_PHRASE = 'translate their vision into digital products';
 const TYPING_SPEED = 32;
 
 function renderText(text) {
-  const idx = text.indexOf(BOLD_PHRASE);
+  const idx = text.indexOf(SERIF_PHRASE);
   if (idx === -1) return <>{text}</>;
   return (
     <>
       {text.slice(0, idx)}
-      <strong>{text.slice(idx, idx + BOLD_PHRASE.length)}</strong>
-      {text.slice(idx + BOLD_PHRASE.length)}
+      <strong>{text.slice(idx, idx + SERIF_PHRASE.length)}</strong>
+      {text.slice(idx + SERIF_PHRASE.length)}
     </>
   );
 }
@@ -103,19 +123,8 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Full-width logo marquee */}
-      <div className={styles.logoTrack}>
-        <div className={styles.logoStrip}>
-          {[...LOGOS, ...LOGOS].map((logo, i) => (
-            <img
-              key={`${logo.alt}-${i}`}
-              src={logo.src}
-              alt={logo.alt}
-              className={styles.logo}
-            />
-          ))}
-        </div>
-      </div>
+      {/* Full-width logo marquee — memoised, never re-renders */}
+      <LogoMarquee />
     </section>
   );
 }

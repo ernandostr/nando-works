@@ -84,7 +84,7 @@
 }
 
 .email {
-  color: #0000ff !important;
+  color: #002FA7 !important;
 }
 
 /* ── Client logos ── */
@@ -92,23 +92,33 @@
   overflow: hidden;
   width: 100%;
   margin-top: 48px;
+  /* Isolate from layout/paint changes in the typing headline above */
+  contain: layout style;
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
   mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
 }
 
-/* Duplicated strip — scrolls right to left, loops seamlessly */
+/* Duplicated strip — scrolls right to left, loops seamlessly.
+   No will-change: it blanks composited content on iOS Safari. */
 .logoStrip {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
   gap: 40px;
   width: max-content;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-animation: marquee 18s linear infinite;
   animation: marquee 18s linear infinite;
 }
 
+@-webkit-keyframes marquee {
+  from { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
+  to   { -webkit-transform: translate3d(-50%, 0, 0); transform: translate3d(-50%, 0, 0); }
+}
 @keyframes marquee {
-  from { transform: translateX(0%); }
-  to   { transform: translateX(-50%); }
+  from { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
+  to   { -webkit-transform: translate3d(-50%, 0, 0); transform: translate3d(-50%, 0, 0); }
 }
 
 .logo {
@@ -145,5 +155,13 @@
   .logoTrack {
     margin-left: -24px;
     width: calc(100% + 48px);
+    /* Safari iOS: mask-image + overflow:hidden on same element hides content */
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .logo {
+    filter: grayscale(100%);
+    opacity: 0.75;
   }
 }

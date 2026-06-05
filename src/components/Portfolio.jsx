@@ -63,7 +63,7 @@ export default function Portfolio() {
     <section className={styles.portfolio}>
       <div className={styles.sectionHeading}>
         <h2 className={styles.sectionTitle}>Selected<br />Work</h2>
-        <p className={styles.sectionSub}>22' - Present</p>
+        <p className={styles.sectionSub}>19' - Present</p>
       </div>
 
       <div className={styles.list}>
