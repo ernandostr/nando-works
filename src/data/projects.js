@@ -13,7 +13,7 @@ export const projects = [
     category: 'Product Design',
     year: '2025',
     tldr: "Kahf's initial designs for their AI-powered mall kiosk, covering skin analysis, hairstyle detection, and outfit recommendations, felt disconnected from the brand's premium identity. In 3 weeks, I rebuilt the visual direction and interface from scratch, unifying flows across three AI features while navigating four stakeholders with competing visions.",
-    images: [dr1, dr2, dr3, dr4, dr5, dr6],
+    images: [dr3, dr2, dr1, dr5, dr6],
     slug: 'kahf-decode',
   },
   {
