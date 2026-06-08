@@ -39,7 +39,7 @@ export default function About() {
       <header className={styles.header}>
         <h1 className={styles.title}>About me</h1>
         <p className={styles.intro}>
-          I'm Fernando — a product designer (UI/UX) with over 8 years of experience
+          I'm Fernando, a product designer (UI/UX) with over 8 years of experience
           helping founders and product owners translate their vision into digital product.
         </p>
       </header>

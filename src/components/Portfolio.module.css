@@ -88,6 +88,14 @@
   color: var(--grey-600);
 }
 
+/* Coming soon label */
+.comingSoon {
+  font-size: 13px;
+  color: var(--grey-400);
+  font-style: italic;
+  align-self: flex-start;
+}
+
 /* Read more */
 .readMore {
   display: inline-flex;

@@ -49,7 +49,7 @@ export default function KahfDecode() {
           <p className={styles.body}>
             Kahf leads Indonesia's men's skincare market. Their brand is built on consistency:
             from typography with their own custom typeface (Kahf Sans), to product packaging,
-            to social content and influencer partnerships — every detail is intentionally crafted.
+            to social content and influencer partnerships; every detail is intentionally crafted.
             For Kahf, beautiful design isn't just functional, it's a core brand differentiator.
           </p>
 
@@ -123,7 +123,7 @@ export default function KahfDecode() {
         <span className={styles.label}>The Challenge</span>
         <div className={styles.content}>
           <p className={styles.body}>
-            Kahf had invested heavily in Decode's launch — a flagship event at one of South
+            Kahf had invested heavily in Decode's launch, a flagship event at one of South
             Jakarta's most prestigious malls, targeting Indonesia's urban affluent consumers.
             The event was supported by high-profile KOL partnerships and integrated marketing
             across social, web, and offline channels.
@@ -194,7 +194,7 @@ export default function KahfDecode() {
               <div className={styles.stepContent}>
                 <p className={styles.stepTitle}>Visual Direction Exploration</p>
                 <p className={styles.stepBody}>
-                  Like a writer with a blank page — defining a key visual direction is the most
+                  Like a writer with a blank page; defining a key visual direction is the most
                   challenging part because the possibilities are enormous. Since color is the
                   biggest element that evokes mood, we explored two extremes: vibrant vs. muted
                   tones. We used home screens as the primary exploration medium (the most
@@ -215,7 +215,7 @@ export default function KahfDecode() {
                 <p className={styles.stepTitle}>Interface Design & Design Review</p>
                 <p className={styles.stepBody}>
                   Four stakeholders held executive decision power, each with different knowledge
-                  and taste — one referenced Digimon card designs, another wanted a futuristic
+                  and taste: one referenced Digimon card designs, another wanted a futuristic
                   interface like Iron Man's HUD. Aligning these visions under a 3-week deadline
                   required a deliberate two-pronged approach.
                 </p>
@@ -231,8 +231,8 @@ export default function KahfDecode() {
                   <div className={styles.approach}>
                     <span className={styles.approachTag}>Second</span>
                     <p className={styles.approachText}>
-                      We designed options based on their direction — showing we listened and
-                      genuinely tried their ideas — then explained why those directions conflicted
+                      We designed options based on their direction, showing we listened and
+                      genuinely tried their ideas, then explained why those directions conflicted
                       with their own key visual guidelines.
                     </p>
                   </div>
@@ -251,8 +251,8 @@ export default function KahfDecode() {
             <div className={styles.bigStat}>
               <p className={styles.bigStatNumber}>80%</p>
               <p className={styles.bigStatLabel}>
-                of the project timeline was spent exploring design ideas — both our own
-                and stakeholder-requested directions — articulating design decisions,
+                of the project timeline was spent exploring design ideas, covering both our own
+                and stakeholder-requested directions, articulating design decisions,
                 and conducting design reviews.
               </p>
             </div>

@@ -37,7 +37,6 @@ function Nav({ path = '/' }) {
               </svg>
             </a>
           </li>
-          <li><a href="/writings">Writings</a></li>
         </ul>
 
         {/* Hamburger button — mobile only */}
@@ -72,7 +71,6 @@ function Nav({ path = '/' }) {
               </svg>
             </a>
           </li>
-          <li><a href="/writings" onClick={() => setOpen(false)}>Writings</a></li>
         </ul>
       </div>
     </nav>

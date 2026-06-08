@@ -1,3 +1,10 @@
+import dr1 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/1.avif';
+import dr2 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/2.avif';
+import dr3 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/3.avif';
+import dr4 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/4.avif';
+import dr5 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/5.avif';
+import dr6 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/6.avif';
+
 export const projects = [
   {
     id: 1,
@@ -5,28 +12,19 @@ export const projects = [
     title: 'Defining Key Visual and Designing Interface For Kahf Decode',
     category: 'Product Design',
     year: '2025',
-    tldr: "Kahf's initial designs for their AI-powered mall kiosk — covering skin analysis, hairstyle detection, and outfit recommendations — felt disconnected from the brand's premium identity. In 3 weeks, I rebuilt the visual direction and interface from scratch, unifying flows across three AI features while navigating four stakeholders with competing visions.",
-    images: [],
+    tldr: "Kahf's initial designs for their AI-powered mall kiosk, covering skin analysis, hairstyle detection, and outfit recommendations, felt disconnected from the brand's premium identity. In 3 weeks, I rebuilt the visual direction and interface from scratch, unifying flows across three AI features while navigating four stakeholders with competing visions.",
+    images: [dr1, dr2, dr3, dr4, dr5, dr6],
     slug: 'kahf-decode',
   },
   {
     id: 2,
     index: '02',
-    title: 'Another Project',
+    title: 'Mitra Bukalapak - Enabler elder seller to sell voucher game to their own customers.',
     category: 'UI/UX',
     year: '2023',
-    tldr: 'Describe the core challenge and your approach. Keep it to 2–3 sentences — just enough for the reader to know if they want to go deeper.',
+    tldr: 'Designing a feature for Mitra Bukalapak agents to offer digital game vouchers to their own customers, expanding their revenue streams through a simple and accessible interface.',
     images: [],
-    slug: 'project-two',
-  },
-  {
-    id: 3,
-    index: '03',
-    title: 'One More Case Study',
-    category: 'Product Strategy',
-    year: '2023',
-    tldr: 'The context that made this project interesting, the constraints you worked within, and the outcome that mattered.',
-    images: [],
-    slug: 'project-three',
+    slug: 'mitra-bukalapak',
+    comingSoon: true,
   },
 ];

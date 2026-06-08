@@ -69,8 +69,8 @@ export default function Hero() {
           </div>
 
           <ul className={styles.links}>
-            <li><a href="https://linkedin.com/in/fernandosianturi" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-            <li><a href="https://dribbble.com/fernandosianturi" target="_blank" rel="noopener noreferrer">Dribbble</a></li>
+            <li><a href="https://www.linkedin.com/in/fernandostr/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://dribbble.com/fernandostr" target="_blank" rel="noopener noreferrer">Dribbble</a></li>
             <li>
               <a href="mailto:ernandostr@gmail.com" className={styles.email}>
                 → ernandostr@gmail.com
