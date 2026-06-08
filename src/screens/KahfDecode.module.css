@@ -332,10 +332,10 @@
   display: block;
 }
 
-/* ── 3-column image grid (design-review images) ── */
+/* ── Vertical image stack (design-review images) ── */
 .imageGrid3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 12px;
   margin-top: 32px;
 }
@@ -413,10 +413,6 @@
     grid-template-columns: 1fr;
   }
 
-  .imageGrid3 {
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
 
   .statBar {
     flex-direction: column;
