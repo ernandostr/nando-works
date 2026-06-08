@@ -1,10 +1,15 @@
 import styles from './KahfDecode.module.css';
 
-import kahfBanner  from '../assets/kahf decode/the company - kahf/kahf banner.avif';
-import kahfProduct from '../assets/kahf decode/the company - kahf/kahf product.avif';
+import kahfVideo        from '../assets/kahf decode/the company - kahf/kahf video.mp4';
 import kahfDecodeProducts from '../assets/kahf decode/the product digital - kahf decode/kahf decode products.avif';
 import processStep1 from '../assets/kahf decode/the key process/1. The Key Process - Understand the product, the users, the company vision and run a UX audit.avif';
 import processStep2 from '../assets/kahf decode/the key process/2. The Key Process - Explore visual directions.avif';
+import designReview1 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/1.avif';
+import designReview2 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/2.avif';
+import designReview3 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/3.avif';
+import designReview4 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/4.avif';
+import designReview5 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/5.avif';
+import designReview6 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/6.avif';
 
 export default function KahfDecode() {
   return (
@@ -48,10 +53,14 @@ export default function KahfDecode() {
             For Kahf, beautiful design isn't just functional, it's a core brand differentiator.
           </p>
 
-          <div className={styles.imageGrid2}>
-            <img src={kahfBanner}  alt="Kahf brand banner"   className={styles.imageFull} />
-            <img src={kahfProduct} alt="Kahf product lineup" className={styles.imageFull} />
-          </div>
+          <video
+            src={kahfVideo}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className={styles.video}
+          />
         </div>
       </div>
 
@@ -255,6 +264,15 @@ export default function KahfDecode() {
                 confidence to present with conviction.
               </p>
             </div>
+          </div>
+
+          <div className={styles.imageGrid3}>
+            <img src={designReview1} alt="Interface design review 1" />
+            <img src={designReview2} alt="Interface design review 2" />
+            <img src={designReview3} alt="Interface design review 3" />
+            <img src={designReview4} alt="Interface design review 4" />
+            <img src={designReview5} alt="Interface design review 5" />
+            <img src={designReview6} alt="Interface design review 6" />
           </div>
         </div>
       </div>
