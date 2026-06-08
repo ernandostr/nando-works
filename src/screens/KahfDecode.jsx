@@ -1,5 +1,9 @@
 import styles from './KahfDecode.module.css';
 
+import kahfBanner  from '../assets/kahf decode/the company - kahf/kahf banner.avif';
+import kahfProduct from '../assets/kahf decode/the company - kahf/kahf product.avif';
+import kahfDecodeProducts from '../assets/kahf decode/the product digital - kahf decode/kahf decode products.avif';
+
 export default function KahfDecode() {
   return (
     <article className={styles.page}>
@@ -22,25 +26,30 @@ export default function KahfDecode() {
         Defining Key Visual and Designing Interface For Kahf Decode
       </h1>
 
-      {/* ── Stat bar ── */}
-      <div className={styles.statBar}>
-        <span className={styles.statBarNumber}>39%</span>
-        <span className={styles.statBarText}>
-          market share in Indonesia's men's skincare category
-          <br />Kahf dominates Shopee as category leader (Q1 2025)
-        </span>
-      </div>
-
       {/* ── The Company ── */}
       <div className={styles.row}>
         <span className={styles.label}>The Company</span>
         <div className={styles.content}>
+          {/* Stat bar lives inside The Company */}
+          <div className={styles.statBar}>
+            <span className={styles.statBarNumber}>39%</span>
+            <span className={styles.statBarText}>
+              market share in Indonesia's men's skincare category
+              <br />Kahf dominates Shopee as category leader (Q1 2025)
+            </span>
+          </div>
+
           <p className={styles.body}>
             Kahf leads Indonesia's men's skincare market. Their brand is built on consistency:
             from typography with their own custom typeface (Kahf Sans), to product packaging,
             to social content and influencer partnerships — every detail is intentionally crafted.
             For Kahf, beautiful design isn't just functional, it's a core brand differentiator.
           </p>
+
+          <div className={styles.imageGrid2}>
+            <img src={kahfBanner}  alt="Kahf brand banner"   className={styles.imageFull} />
+            <img src={kahfProduct} alt="Kahf product lineup" className={styles.imageFull} />
+          </div>
         </div>
       </div>
 
@@ -72,6 +81,8 @@ export default function KahfDecode() {
             activation, it combines computer vision and personalized algorithms to simplify
             grooming decisions and build user confidence.
           </p>
+
+          <img src={kahfDecodeProducts} alt="Kahf Decode product experience" className={styles.imageFull} />
 
           <div className={styles.features}>
             <div className={styles.featureCard}>
@@ -213,7 +224,7 @@ export default function KahfDecode() {
 
       {/* ── Stats ── */}
       <div className={styles.row}>
-        <span className={styles.label}>By the Numbers</span>
+        <span className={styles.label} />
         <div className={styles.content}>
           <div className={styles.bigStats}>
             <div className={styles.bigStat}>
@@ -225,7 +236,7 @@ export default function KahfDecode() {
               </p>
             </div>
             <div className={styles.bigStat}>
-              <p className={styles.bigStatNumber}>483</p>
+              <p className={styles.bigStatNumber}>450+</p>
               <p className={styles.bigStatLabel}>
                 design drafts created. We believe the best ideas come from exploring as
                 many alternatives as possible. Heavy exploration is what builds the
@@ -234,15 +245,6 @@ export default function KahfDecode() {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* ── Closing ── */}
-      <div className={styles.closingRow}>
-        <p className={styles.closing}>
-          The process leads to confidence — confidence in presenting designs to users,
-          in defending decisions to stakeholders, and in delivering work that reflects
-          the quality a brand like Kahf demands.
-        </p>
       </div>
 
     </article>
