@@ -3,6 +3,8 @@ import styles from './KahfDecode.module.css';
 import kahfBanner  from '../assets/kahf decode/the company - kahf/kahf banner.avif';
 import kahfProduct from '../assets/kahf decode/the company - kahf/kahf product.avif';
 import kahfDecodeProducts from '../assets/kahf decode/the product digital - kahf decode/kahf decode products.avif';
+import processStep1 from '../assets/kahf decode/the key process/1. The Key Process - Understand the product, the users, the company vision and run a UX audit.avif';
+import processStep2 from '../assets/kahf decode/the key process/2. The Key Process - Explore visual directions.avif';
 
 export default function KahfDecode() {
   return (
@@ -170,6 +172,11 @@ export default function KahfDecode() {
                   information architecture across all three products, allowing users to navigate
                   each experience with the same intuitive pattern.
                 </p>
+                <img
+                  src={processStep1}
+                  alt="The Key Process — Understand the product, the users, the company vision and run a UX audit"
+                  className={styles.stepImage}
+                />
               </div>
             </div>
 
@@ -185,6 +192,11 @@ export default function KahfDecode() {
                   expressive canvas) and gathered stakeholder feedback to determine which
                   direction best aligned with Kahf's brand.
                 </p>
+                <img
+                  src={processStep2}
+                  alt="The Key Process — Explore visual directions"
+                  className={styles.stepImage}
+                />
               </div>
             </div>
 
