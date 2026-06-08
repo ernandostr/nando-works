@@ -4,6 +4,7 @@ import dr3 from '../assets/kahf decode/the key process/3. The Key Process - Desi
 import dr4 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/4.avif';
 import dr5 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/5.avif';
 import dr6 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/6.avif';
+import mitraThumbnail from '../assets/mitra bukalapak/mitra bukalapak thumbnail.jpg';
 
 export const projects = [
   {
@@ -13,7 +14,7 @@ export const projects = [
     category: 'Product Design',
     year: '2025',
     tldr: "Kahf's initial designs for their AI-powered mall kiosk, covering skin analysis, hairstyle detection, and outfit recommendations, felt disconnected from the brand's premium identity. In 3 weeks, I rebuilt the visual direction and interface from scratch, unifying flows across three AI features while navigating four stakeholders with competing visions.",
-    images: [dr3, dr2, dr1, dr5, dr6],
+    images: [dr3, dr2, dr1, dr4, dr6],
     slug: 'kahf-decode',
   },
   {
@@ -23,7 +24,7 @@ export const projects = [
     category: 'UI/UX',
     year: '2023',
     tldr: 'Designing a feature for Mitra Bukalapak agents to offer digital game vouchers to their own customers, expanding their revenue streams through a simple and accessible interface.',
-    images: [],
+    images: [mitraThumbnail],
     slug: 'mitra-bukalapak',
     comingSoon: true,
   },
