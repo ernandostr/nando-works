@@ -128,7 +128,7 @@ export default function MitraBukalapak() {
                   Armed with O2O principles and user knowledge, I designed the interface with two key
                   decisions in mind.
                 </p>
-                <div className={styles.approaches}>
+                <div className={styles.approaches} style={{ marginTop: '24px' }}>
                   <div className={styles.approach}>
                     <span className={styles.approachTag}>First</span>
                     <p className={styles.approachText}>
@@ -157,10 +157,9 @@ export default function MitraBukalapak() {
         <span className={styles.label}>Outcome</span>
         <div className={styles.content}>
           <div className={styles.bigStats}>
-            <div className={styles.bigStat}>
-              <p className={styles.bigStatNumber}>Top 5</p>
-              <p className={styles.bigStatLabel}>
-                of 20 most-performing O2O products on the Mitra Bukalapak platform.
+            <div className={styles.bigStat} style={{ gridColumn: '1 / -1' }}>
+              <p className={styles.bigStatNumber} style={{ fontSize: '36px' }}>
+                Top 5 of 20 most-performing O2O products on the Mitra Bukalapak platform, only two quarters after release.
               </p>
             </div>
           </div>
