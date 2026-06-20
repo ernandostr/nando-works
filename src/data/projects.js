@@ -26,6 +26,5 @@ export const projects = [
     tldr: 'Designing a feature for Mitra Bukalapak agents to offer digital game vouchers to their own customers, expanding their revenue streams through a simple and accessible interface.',
     images: [mitraThumbnail],
     slug: 'mitra-bukalapak',
-    comingSoon: true,
   },
 ];
