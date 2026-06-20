@@ -1,5 +1,7 @@
 import styles from './KahfDecode.module.css';
 import mitraThumbnail from '../assets/mitra bukalapak/mitra bukalapak thumbnail.jpg';
+import coverDetailArticle from '../assets/mitra bukalapak/cover-detail-article.jpg';
+import aligningTeam from '../assets/mitra bukalapak/aligning-team.jpg';
 
 export default function MitraBukalapak() {
   return (
@@ -40,7 +42,7 @@ export default function MitraBukalapak() {
             buyers who depend on neighborhood stores for everyday digital purchases.
           </p>
           <img
-            src={mitraThumbnail}
+            src={coverDetailArticle}
             alt="Mitra Bukalapak voucher game product"
             className={styles.imageFull}
           />
@@ -110,6 +112,11 @@ export default function MitraBukalapak() {
                   feelings, and thoughts at each touchpoint. This aligned our understanding of the user
                   and clarified exactly which features to build, preventing misalignment before design began.
                 </p>
+                <img
+                  src={aligningTeam}
+                  alt="As-is scenario workshop for aligning the team"
+                  className={styles.stepImage}
+                />
               </div>
             </div>
 
@@ -156,20 +163,13 @@ export default function MitraBukalapak() {
                 of 20 most-performing O2O products on the Mitra Bukalapak platform.
               </p>
             </div>
-            <div className={styles.bigStat}>
-              <p className={styles.bigStatNumber}>2 Players</p>
-              <p className={styles.bigStatLabel}>
-                At launch, only Alfamart and Indomaret served unbanked game voucher buyers.
-                Warung stores were far more accessible and trusted, and our product gave
-                them the tools to capture that demand.
-              </p>
-            </div>
           </div>
           <p className={styles.body} style={{ marginTop: '32px' }}>
             The timing made sense: mobile gaming in Indonesia was surging in 2019, yet distribution
-            touchpoints for unbanked buyers were limited to large convenience chains. Warung stores
-            were the natural next channel, and sellers quickly adopted the product once they could
-            navigate it confidently.
+            touchpoints for unbanked buyers were limited to large convenience chains like Alfamart and
+            Indomaret. Warung stores were far more accessible and trusted. Our product gave them the
+            tools to capture that demand, and sellers quickly adopted it once they could navigate it
+            confidently.
           </p>
         </div>
       </div>
