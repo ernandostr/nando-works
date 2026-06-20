@@ -158,12 +158,12 @@ export default function MitraBukalapak() {
         <div className={styles.content}>
           <div className={styles.bigStats}>
             <div className={styles.bigStat} style={{ gridColumn: '1 / -1' }}>
-              <p className={styles.bigStatNumber} style={{ fontSize: '36px' }}>
+              <p className={styles.bigStatNumber} style={{ fontSize: '36px', lineHeight: '1.2' }}>
                 Top 5 of 20 most-performing O2O products on the Mitra Bukalapak platform, only two quarters after release.
               </p>
             </div>
           </div>
-          <p className={styles.body} style={{ marginTop: '32px' }}>
+          <p className={styles.body} style={{ marginTop: '24px' }}>
             The timing made sense: mobile gaming in Indonesia was surging in 2019, yet distribution
             touchpoints for unbanked buyers were limited to large convenience chains like Alfamart and
             Indomaret. Warung stores were far more accessible and trusted. Our product gave them the
