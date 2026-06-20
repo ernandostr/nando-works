@@ -157,7 +157,7 @@ export default function MitraBukalapak() {
         <span className={styles.label}>Outcome</span>
         <div className={styles.content}>
           <div className={styles.bigStats}>
-            <div className={styles.bigStat} style={{ gridColumn: '1 / -1' }}>
+            <div className={styles.bigStat} style={{ gridColumn: '1 / -1', paddingTop: '32px', paddingBottom: '32px' }}>
               <p className={styles.bigStatNumber} style={{ fontSize: '36px', lineHeight: '1.2' }}>
                 Top 5 of 20 most-performing O2O products on the Mitra Bukalapak platform, only two quarters after release.
               </p>
