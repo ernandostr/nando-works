@@ -2,6 +2,8 @@ import styles from './KahfDecode.module.css';
 import mitraThumbnail from '../assets/mitra bukalapak/mitra bukalapak thumbnail.jpg';
 import coverDetailArticle from '../assets/mitra bukalapak/cover-detail-article.jpg';
 import aligningTeam from '../assets/mitra bukalapak/aligning-team.jpg';
+import interfaceSingle from '../assets/mitra bukalapak/interface - single.jpg';
+import interfaceAllCompiles from '../assets/mitra bukalapak/interface - all compiles.jpg';
 
 export default function MitraBukalapak() {
   return (
@@ -108,7 +110,7 @@ export default function MitraBukalapak() {
                 <p className={styles.stepTitle}>Aligning the Team</p>
                 <p className={styles.stepBody}>
                   During knowledge transfer, team members were interpreting the project scope differently.
-                  I facilitated a workshop using an as-is scenario framework, mapping the user journey,
+                  We (me and a researcher) facilitated a workshop using an as-is scenario framework, mapping the user journey,
                   feelings, and thoughts at each touchpoint. This aligned our understanding of the user
                   and clarified exactly which features to build, preventing misalignment before design began.
                 </p>
@@ -145,6 +147,16 @@ export default function MitraBukalapak() {
                     </p>
                   </div>
                 </div>
+                <img
+                  src={interfaceSingle}
+                  alt="Interface single view"
+                  className={styles.stepImage}
+                />
+                <img
+                  src={interfaceAllCompiles}
+                  alt="Interface all compiles"
+                  className={styles.stepImage}
+                />
               </div>
             </div>
 
