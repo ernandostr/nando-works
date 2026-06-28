@@ -11,6 +11,7 @@ function ImageGrid({ images, title, comingSoon }) {
             src={src}
             alt={`${title} ${i + 1}`}
             className={i === 0 ? styles.imageHero : styles.imageSquare}
+            style={i > 0 && images.length === 3 ? { gridColumn: '1 / -1' } : undefined}
           />
         ))}
       </div>
