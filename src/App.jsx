@@ -12,6 +12,8 @@ import CursorSparkle from './components/CursorSparkle.jsx';
 import RippleCanvas from './components/RippleCanvas.jsx';
 import RulerLine from './components/RulerLine.jsx';
 import Lightbox from './components/Lightbox.jsx';
+import PasswordModal from './components/PasswordModal.jsx';
+import { usePortfolioAccess } from './hooks/usePortfolioAccess.js';
 
 function useLinkTransition(setPath) {
   useEffect(() => {
@@ -67,6 +69,8 @@ function useLenis() {
 
 export default function App() {
   const [path, setPath] = useState(window.location.pathname);
+  const [accessGranted, setAccessGranted] = useState(false);
+  const { isUnlocked, unlock } = usePortfolioAccess();
 
   useLenis();
   useLinkTransition(setPath);
@@ -95,7 +99,22 @@ export default function App() {
         ) : isKahfDecode ? (
           <KahfDecode />
         ) : isMitraBukalapak ? (
-          <MitraBukalapak />
+          <>
+            {!isUnlocked && !accessGranted && (
+              <PasswordModal
+                onUnlock={(input) => {
+                  const ok = unlock(input);
+                  if (ok) setAccessGranted(true);
+                  return ok;
+                }}
+                onDismiss={() => {
+                  window.history.pushState(null, '', '/');
+                  setPath('/');
+                }}
+              />
+            )}
+            {(isUnlocked || accessGranted) && <MitraBukalapak />}
+          </>
         ) : (
           <>
             <Hero />
