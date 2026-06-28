@@ -11,6 +11,7 @@ import Footer from './components/Footer.jsx';
 import CursorSparkle from './components/CursorSparkle.jsx';
 import RippleCanvas from './components/RippleCanvas.jsx';
 import RulerLine from './components/RulerLine.jsx';
+import Lightbox from './components/Lightbox.jsx';
 
 function useLinkTransition(setPath) {
   useEffect(() => {
@@ -83,6 +84,7 @@ export default function App() {
 
   return (
     <>
+      <Lightbox />
       <CursorSparkle />
       <RippleCanvas />
       <RulerLine />
