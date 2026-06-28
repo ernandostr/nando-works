@@ -4,7 +4,9 @@ import dr3 from '../assets/kahf decode/the key process/3. The Key Process - Desi
 import dr4 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/4.avif';
 import dr5 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/5.avif';
 import dr6 from '../assets/kahf decode/the key process/3. The Key Process - Designing Interface & Doing Design Review/6.avif';
-import mitraThumbnail from '../assets/mitra bukalapak/mitra bukalapak thumbnail.jpg';
+import mitraCover from '../assets/mitra bukalapak/cover-detail-article.jpg';
+import mitraInterfaceSingle from '../assets/mitra bukalapak/interface - single.jpg';
+import mitraInterfaceAll from '../assets/mitra bukalapak/interface - all compiles.jpg';
 
 export const projects = [
   {
@@ -24,7 +26,7 @@ export const projects = [
     category: 'UI/UX',
     year: '2023',
     tldr: 'Designing a feature for Mitra Bukalapak agents to offer digital game vouchers to their own customers, expanding their revenue streams through a simple and accessible interface.',
-    images: [mitraThumbnail],
+    images: [mitraCover, mitraInterfaceSingle, mitraInterfaceAll],
     slug: 'mitra-bukalapak',
   },
 ];
