@@ -31,6 +31,11 @@ export default function PasswordModal({ onUnlock, onDismiss }) {
         className={`${styles.card} ${shake ? styles.shake : ''}`}
         onClick={(e) => e.stopPropagation()}
       >
+        <img
+          src="https://media1.tenor.com/m/CFEyyN92GaYAAAAC/clippy-head-scratch.gif"
+          alt="Clippy thinking"
+          className={styles.gif}
+        />
         <p className={styles.eyebrow}>Protected Portfolio</p>
         <p className={styles.body}>
           This portfolio is protected with a password. If you want exclusive access,
