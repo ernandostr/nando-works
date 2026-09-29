@@ -73,38 +73,40 @@ export default function ContributionGraph({ dates }) {
       </p>
 
       <div className={styles.card}>
-        <div className={styles.scroll} ref={scrollRef}>
-          <div className={styles.graph} style={{ '--cols': weeks.length }}>
-            <div className={styles.months}>
-              {monthLabels.map((m) => (
-                <span key={`${m.col}-${m.label}`} style={{ gridColumn: m.col + 1 }}>{m.label}</span>
-              ))}
-            </div>
+        <div className={styles.body}>
+          <div className={styles.days}>
+            {DAY_LABELS.map((d, i) => <span key={i}>{d}</span>)}
+          </div>
 
-            <div className={styles.days}>
-              {DAY_LABELS.map((d, i) => <span key={i}>{d}</span>)}
-            </div>
+          <div className={styles.scroll} ref={scrollRef}>
+            <div className={styles.graph} style={{ '--cols': weeks.length }}>
+              <div className={styles.months}>
+                {monthLabels.map((m) => (
+                  <span key={`${m.col}-${m.label}`} style={{ gridColumn: m.col + 1 }}>{m.label}</span>
+                ))}
+              </div>
 
-            <div className={styles.cells} onMouseLeave={() => setActive(null)}>
-              {weeks.map((week, wi) =>
-                week.map((day, di) =>
-                  day ? (
-                    <button
-                      key={`${wi}-${di}`}
-                      type="button"
-                      className={styles.cell}
-                      data-level={levelFor(day.count)}
-                      title={describe(day)}
-                      aria-label={describe(day)}
-                      onMouseEnter={() => setActive(day)}
-                      onFocus={() => setActive(day)}
-                      onClick={() => setActive(day)}
-                    />
-                  ) : (
-                    <span key={`${wi}-${di}`} className={styles.empty} />
+              <div className={styles.cells} onMouseLeave={() => setActive(null)}>
+                {weeks.map((week, wi) =>
+                  week.map((day, di) =>
+                    day ? (
+                      <button
+                        key={`${wi}-${di}`}
+                        type="button"
+                        className={styles.cell}
+                        data-level={levelFor(day.count)}
+                        title={describe(day)}
+                        aria-label={describe(day)}
+                        onMouseEnter={() => setActive(day)}
+                        onFocus={() => setActive(day)}
+                        onClick={() => setActive(day)}
+                      />
+                    ) : (
+                      <span key={`${wi}-${di}`} className={styles.empty} />
+                    ),
                   ),
-                ),
-              )}
+                )}
+              </div>
             </div>
           </div>
         </div>
