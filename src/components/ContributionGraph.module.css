@@ -35,6 +35,7 @@
 }
 
 .scroll {
+  position: relative;
   flex: 1;
   min-width: 0;
   overflow-x: auto;
@@ -93,7 +94,12 @@
 .cell[data-level='3'] { background: #2E2E2E; }
 .cell[data-level='4'] { background: var(--black); }
 
-.cells .cell:hover,
+.future {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.cells .cell:not(.future):hover,
 .cells .cell:focus-visible {
   transform: scale(1.35);
   outline: none;

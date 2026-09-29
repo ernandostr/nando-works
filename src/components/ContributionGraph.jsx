@@ -20,34 +20,39 @@ export default function ContributionGraph({ dates }) {
   const scrollRef = useRef(null);
   const [active, setActive] = useState(null);
 
-  const { weeks, monthLabels, total } = useMemo(() => {
+  const { year, weeks, monthLabels, total } = useMemo(() => {
     const counts = {};
     dates.forEach((key) => { counts[key] = (counts[key] || 0) + 1; });
 
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const start = new Date(today);
-    start.setDate(start.getDate() - 52 * 7 - today.getDay());
+    const year = today.getFullYear();
+    const yearStart = new Date(year, 0, 1);
+    const yearEnd = new Date(year, 11, 31);
+    const cursor = new Date(yearStart);
+    cursor.setDate(cursor.getDate() - yearStart.getDay());
 
     const weeks = [];
     const monthLabels = [];
     let total = 0;
-    const cursor = new Date(start);
-    let lastLabelCol = -3;
 
-    while (cursor <= today) {
+    while (cursor <= yearEnd) {
       const week = [];
       for (let i = 0; i < 7; i++) {
-        if (cursor > today) {
+        if (cursor < yearStart || cursor > yearEnd) {
           week.push(null);
         } else {
           const date = new Date(cursor);
           const count = counts[toKey(date)] || 0;
           total += count;
-          week.push({ date, count });
-          if (date.getDate() === 1 && weeks.length - lastLabelCol >= 3) {
+          week.push({
+            date,
+            count,
+            future: date > today,
+            isToday: date.getTime() === today.getTime(),
+          });
+          if (date.getDate() === 1) {
             monthLabels.push({ col: weeks.length, label: MONTHS[date.getMonth()] });
-            lastLabelCol = weeks.length;
           }
         }
         cursor.setDate(cursor.getDate() + 1);
@@ -55,12 +60,15 @@ export default function ContributionGraph({ dates }) {
       weeks.push(week);
     }
 
-    return { weeks, monthLabels, total };
+    return { year, weeks, monthLabels, total };
   }, [dates]);
 
   useEffect(() => {
     const el = scrollRef.current;
-    if (el) el.scrollLeft = el.scrollWidth;
+    const todayCell = el?.querySelector('[data-today]');
+    if (el && todayCell && todayCell.offsetLeft + todayCell.offsetWidth > el.clientWidth) {
+      el.scrollLeft = todayCell.offsetLeft - el.clientWidth / 2;
+    }
   }, []);
 
   const describe = (day) =>
@@ -69,7 +77,7 @@ export default function ContributionGraph({ dates }) {
   return (
     <div className={styles.wrap}>
       <p className={styles.summary}>
-        {total} essay{total === 1 ? '' : 's'} in the last year
+        {total} essay{total === 1 ? '' : 's'} in {year}
       </p>
 
       <div className={styles.card}>
@@ -89,8 +97,17 @@ export default function ContributionGraph({ dates }) {
               <div className={styles.cells} onMouseLeave={() => setActive(null)}>
                 {weeks.map((week, wi) =>
                   week.map((day, di) =>
-                    day ? (
+                    !day ? (
+                      <span key={`${wi}-${di}`} className={styles.empty} />
+                    ) : day.future ? (
+                      <span
+                        key={`${wi}-${di}`}
+                        className={`${styles.cell} ${styles.future}`}
+                        data-level={0}
+                      />
+                    ) : (
                       <button
+                        data-today={day.isToday || undefined}
                         key={`${wi}-${di}`}
                         type="button"
                         className={styles.cell}
@@ -101,8 +118,6 @@ export default function ContributionGraph({ dates }) {
                         onFocus={() => setActive(day)}
                         onClick={() => setActive(day)}
                       />
-                    ) : (
-                      <span key={`${wi}-${di}`} className={styles.empty} />
                     ),
                   ),
                 )}
