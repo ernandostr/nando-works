@@ -7,6 +7,7 @@ import Portfolio from './components/Portfolio.jsx';
 import About from './screens/About.jsx';
 import KahfDecode from './screens/KahfDecode.jsx';
 import MitraBukalapak from './screens/MitraBukalapak.jsx';
+import Essays from './screens/Essays.jsx';
 import Footer from './components/Footer.jsx';
 import CursorSparkle from './components/CursorSparkle.jsx';
 import RippleCanvas from './components/RippleCanvas.jsx';
@@ -83,6 +84,7 @@ export default function App() {
   }, []);
 
   const isAbout = path === '/about';
+  const isEssays = path === '/essays';
   const isKahfDecode = path === '/work/kahf-decode';
   const isMitraBukalapak = path === '/work/mitra-bukalapak';
 
@@ -96,6 +98,8 @@ export default function App() {
       <main>
         {isAbout ? (
           <About />
+        ) : isEssays ? (
+          <Essays />
         ) : isKahfDecode ? (
           <KahfDecode />
         ) : isMitraBukalapak ? (

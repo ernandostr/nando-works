@@ -1,0 +1,39 @@
+.essays {
+  padding: 148px 80px 120px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  max-width: 600px;
+  margin-bottom: 64px;
+}
+
+.title {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: clamp(56px, 9vw, 112px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  margin-bottom: 24px;
+}
+
+.sub {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--grey-600, #555);
+}
+
+.coming {
+  font-size: 14px;
+  color: var(--grey-400, #999);
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .essays {
+    padding: 120px 24px 80px;
+  }
+}

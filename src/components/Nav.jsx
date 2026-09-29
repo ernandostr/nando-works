@@ -24,6 +24,7 @@ function Nav({ path = '/' }) {
         <ul className={styles.links}>
           <li><a href="/" className={path === '/' ? styles.active : ''}>Home</a></li>
           <li><a href="/about" className={path === '/about' ? styles.active : ''}>About me</a></li>
+          <li><a href="/essays" className={path === '/essays' ? styles.active : ''}>Essays</a></li>
           <li>
             <a
               href="https://drive.google.com/drive/u/1/folders/1UFVU5r4QyiPhv8yWBoTKDfv20Lo9sLpu"
@@ -57,6 +58,7 @@ function Nav({ path = '/' }) {
         <ul className={styles.drawerLinks}>
           <li><a href="/" className={path === '/' ? styles.active : ''} onClick={() => setOpen(false)}>Home</a></li>
           <li><a href="/about" className={path === '/about' ? styles.active : ''} onClick={() => setOpen(false)}>About me</a></li>
+          <li><a href="/essays" className={path === '/essays' ? styles.active : ''} onClick={() => setOpen(false)}>Essays</a></li>
           <li>
             <a
               href="https://drive.google.com/drive/u/1/folders/1UFVU5r4QyiPhv8yWBoTKDfv20Lo9sLpu"
