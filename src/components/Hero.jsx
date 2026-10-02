@@ -65,7 +65,7 @@ export default function Hero() {
 
           <div className={styles.status}>
             <span className={styles.dot} />
-            Available for work (Full)
+            GovTech Procurement
           </div>
 
           <ul className={styles.links}>
