@@ -57,6 +57,16 @@
   color: var(--black);
 }
 
+.statusLink {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.15s ease;
+}
+
+.statusLink:hover {
+  opacity: 0.55;
+}
+
 .dot {
   width: 7px;
   height: 7px;

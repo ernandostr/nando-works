@@ -65,7 +65,17 @@ export default function Hero() {
 
           <div className={styles.status}>
             <span className={styles.dot} />
-            GovTech Procurement
+            <span>
+              Currently working at{' '}
+              <a
+                href="https://www.linkedin.com/company/govtech-procurement/posts/?feedView=all"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.statusLink}
+              >
+                GovTech Procurement
+              </a>
+            </span>
           </div>
 
           <ul className={styles.links}>
