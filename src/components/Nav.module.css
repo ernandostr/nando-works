@@ -8,8 +8,41 @@
   background: transparent;
 }
 
+/* Progressive blur: 8 stacked layers, blur doubles each layer (0.5px → 64px),
+   each masked to a 37.5% band so the blur fades out smoothly downward */
+.blur {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(var(--nav-h) * 1.85);
+  pointer-events: none;
+}
+
+.blurLayer {
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  -webkit-mask-image: linear-gradient(
+    to top,
+    transparent calc(var(--i) * 12.5%),
+    #000 calc((var(--i) + 1) * 12.5%),
+    #000 calc((var(--i) + 2) * 12.5%),
+    transparent calc((var(--i) + 3) * 12.5%)
+  );
+  mask-image: linear-gradient(
+    to top,
+    transparent calc(var(--i) * 12.5%),
+    #000 calc((var(--i) + 1) * 12.5%),
+    #000 calc((var(--i) + 2) * 12.5%),
+    transparent calc((var(--i) + 3) * 12.5%)
+  );
+}
+
 /* Inner wrapper constrains logo + links to 1400px, centered */
 .inner {
+  position: relative;
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 80px;

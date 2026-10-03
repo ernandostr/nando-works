@@ -1,6 +1,8 @@
 import { useState, useEffect, memo } from 'react';
 import styles from './Nav.module.css';
 
+const BLUR_LAYERS = [0, 1, 2, 3, 4, 5, 6, 7];
+
 function Nav({ path = '/' }) {
   const [open, setOpen] = useState(false);
 
@@ -15,6 +17,16 @@ function Nav({ path = '/' }) {
 
   return (
     <nav className={styles.nav}>
+      <div className={styles.blur} aria-hidden="true">
+        {BLUR_LAYERS.map((i) => (
+          <div
+            key={i}
+            className={styles.blurLayer}
+            style={{ '--i': i, '--blur': `${0.5 * 2 ** i}px` }}
+          />
+        ))}
+      </div>
+
       <div className={styles.inner}>
         <a href="/" className={styles.logoLink}>
           <span className={styles.logo}>nando.works</span>
