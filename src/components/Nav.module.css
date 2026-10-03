@@ -4,7 +4,10 @@
   left: 0;
   right: 0;
   z-index: 100;
-  height: var(--nav-h);
+  box-sizing: border-box;
+  /* On iOS the nav (and its blur) extends up under the status bar */
+  padding-top: env(safe-area-inset-top, 0px);
+  height: calc(var(--nav-h) + env(safe-area-inset-top, 0px));
   background: transparent;
 }
 
@@ -15,7 +18,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: calc(var(--nav-h) * 1.85);
+  height: calc(var(--nav-h) * 1.85 + env(safe-area-inset-top, 0px));
   pointer-events: none;
 }
 
@@ -159,7 +162,7 @@
 /* ── Mobile drawer ── */
 .drawer {
   position: fixed;
-  top: var(--nav-h);
+  top: calc(var(--nav-h) + env(safe-area-inset-top, 0px));
   left: 0;
   right: 0;
   bottom: 0;

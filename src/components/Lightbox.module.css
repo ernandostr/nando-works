@@ -16,7 +16,7 @@
 
 .close {
   position: fixed;
-  top: 20px;
+  top: calc(20px + env(safe-area-inset-top, 0px));
   right: 24px;
   width: 36px;
   height: 36px;
