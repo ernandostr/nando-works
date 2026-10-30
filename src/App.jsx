@@ -10,7 +10,7 @@ import MitraBukalapak from './screens/MitraBukalapak.jsx';
 import Essays from './screens/Essays.jsx';
 import EssayDetail from './screens/EssayDetail.jsx';
 import Footer from './components/Footer.jsx';
-import CursorSparkle from './components/CursorSparkle.jsx';
+import Cursor from './components/Cursor.jsx';
 import RippleCanvas from './components/RippleCanvas.jsx';
 import RulerLine from './components/RulerLine.jsx';
 import Lightbox from './components/Lightbox.jsx';
@@ -93,7 +93,7 @@ export default function App() {
   return (
     <>
       <Lightbox />
-      <CursorSparkle />
+      <Cursor />
       <RippleCanvas />
       <RulerLine />
       <Nav path={path} />
