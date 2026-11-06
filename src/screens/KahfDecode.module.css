@@ -307,6 +307,71 @@
   padding: 48px 40px;
 }
 
+/* ── Recognition / award ── */
+.award {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 48px;
+  align-items: center;
+}
+
+.awardStage {
+  width: 100%;
+  max-width: 460px;
+  aspect-ratio: 4 / 5;
+}
+
+.awardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.awardMedal {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(56px, 8vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  margin-bottom: 8px;
+}
+
+.awardName {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--black);
+}
+
+.awardCategory {
+  font-size: 15px;
+  color: var(--grey-600);
+}
+
+.awardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--black);
+  border-bottom: 1px solid var(--black);
+  padding-bottom: 1px;
+  transition: opacity 0.15s ease;
+}
+
+.awardLink:hover {
+  opacity: 0.45;
+}
+
+.awardHint {
+  margin-top: 24px;
+  font-size: 12px;
+  color: var(--grey-400);
+}
+
 .bigStatNumber {
   font-family: 'Instrument Serif', Georgia, serif;
   font-style: italic;
@@ -379,6 +444,16 @@
 
 /* ── Mobile ── */
 @media (max-width: 768px) {
+  .award {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .awardStage {
+    max-width: 340px;
+    margin: 0 auto;
+  }
+
   .page {
     padding: 116px 24px 120px;
   }

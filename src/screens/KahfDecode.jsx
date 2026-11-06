@@ -1,4 +1,5 @@
 import styles from './KahfDecode.module.css';
+import AwardTrophy from '../components/AwardTrophy.jsx';
 
 import kahfVideo        from '../assets/kahf decode/the company - kahf/kahf video.mp4';
 import kahfDecodeProducts from '../assets/kahf decode/the product digital - kahf decode/kahf decode products.avif';
@@ -32,6 +33,33 @@ export default function KahfDecode() {
       <h1 className={styles.title}>
         Defining Key Visual and Designing Interface For Kahf Decode
       </h1>
+
+      {/* ── Recognition ── */}
+      <div className={styles.row}>
+        <span className={styles.label}>Recognition</span>
+        <div className={styles.award}>
+          <div className={styles.awardStage}>
+            <AwardTrophy label="3D model of the SMARTIES Indonesia 2026 Bronze Award trophy for Kahf Decode" />
+          </div>
+          <div className={styles.awardInfo}>
+            <p className={styles.awardMedal}>Bronze</p>
+            <p className={styles.awardName}>MMA SMARTIES Indonesia 2026</p>
+            <p className={styles.awardCategory}>Design / Customer / User Experience</p>
+            <a
+              href="https://mmaglobal.com/smarties-2026/finalists/winners/index/region:14"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.awardLink}
+            >
+              View the winners
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                <path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </a>
+            <p className={styles.awardHint}>Drag to spin</p>
+          </div>
+        </div>
+      </div>
 
       {/* ── The Company ── */}
       <div className={styles.row}>
