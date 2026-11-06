@@ -291,6 +291,7 @@ export default function AwardTrophy({ label }) {
           velocity *= Math.pow(0.04, dt);
         }
         renderer.render(scene, camera);
+        canvas.dataset.ready = '';
         raf = requestAnimationFrame(tick);
       };
       const start = () => { if (!raf) { last = 0; raf = requestAnimationFrame(tick); } };

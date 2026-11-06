@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Avatar from './Avatar.jsx';
+import AwardTrophy from './AwardTrophy.jsx';
 import styles from './Hero.module.css';
 
 const FULL_TEXT =
@@ -91,6 +92,16 @@ export default function Hero() {
         </div>
       </div>
 
+      <aside className={styles.award}>
+        <div className={styles.awardStage}>
+          <AwardTrophy label="3D model of the SMARTIES Indonesia 2026 Bronze Award trophy for Kahf Decode" />
+        </div>
+        <a href="/work/kahf-decode" className={styles.awardCaption}>
+          <span className={styles.awardMedal}>Bronze</span>
+          <span>MMA SMARTIES Indonesia 2026</span>
+          <span className={styles.awardProject}>Kahf Decode →</span>
+        </a>
+      </aside>
     </section>
   );
 }
