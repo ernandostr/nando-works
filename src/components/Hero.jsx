@@ -97,7 +97,7 @@ export default function Hero() {
           <AwardTrophy label="3D model of the SMARTIES Indonesia 2026 Bronze Award trophy for Kahf Decode" />
         </div>
         <a href="/work/kahf-decode" className={styles.awardCaption}>
-          <span className={styles.awardMedal}>Bronze</span>
+          <span className={styles.awardMedal}>Best Design / Customer / User Experience</span>
           <span>MMA SMARTIES Indonesia 2026</span>
           <span className={styles.awardProject}>Kahf Decode →</span>
         </a>
