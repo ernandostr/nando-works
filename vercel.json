@@ -1,3 +1,7 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/private/digitalhub", "destination": "/private/digitalhub/index.html" },
+    { "source": "/private/digitalhub/", "destination": "/private/digitalhub/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
