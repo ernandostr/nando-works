@@ -2,14 +2,13 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>Telkom Digital Hub</title>
 <style>
   :root {
     --dark: #111111;
     --light: #f0f0f2;
-    --ink: #140101;
   }
 
   html, body {
@@ -20,175 +19,173 @@
   }
   body.idle { cursor: none; }
 
-  /* Light background that floods out of the door */
-  #flood {
+  /* Light background, switched on once the flood has covered the screen */
+  #bgLight {
     position: fixed;
     inset: 0;
     background: var(--light);
-    visibility: hidden;
+    opacity: 0;
   }
 
-  /* Stage = the Figma frame (3434 x 1751), scaled to fit the screen */
+  /* Stage keeps the Figma frame's proportions (3434 x 1751) but is laid out at the real
+     screen size, so every layer is drawn at the resolution it is shown at.
+     All positions below are percentages of Figma coordinates. */
   #stage {
     position: fixed;
     left: 50%;
     top: 50%;
-    width: 3434px;
-    height: 1751px;
-    transform-origin: center;
+    width: min(100vw, calc(100vh * 3434 / 1751));
+    aspect-ratio: 3434 / 1751;
+    transform: translate(-50%, -50%);
   }
-
-  #logo {
-    position: absolute;
-    left: 611px;
-    top: 631px;
-    width: 450px;
-    height: 489.824px;
-    transform-origin: 225px 245px;
-    opacity: 0;
-    z-index: 2;
-    will-change: transform, opacity, filter;
+  @supports (height: 100dvh) {
+    #stage { width: min(100vw, calc(100dvh * 3434 / 1751)); }
   }
-  #textWrap { position: absolute; inset: 0; z-index: 1; }
-  #logo svg { display: block; overflow: visible; }
-
-  /* wordmark, outlined from Timeless Sans Bold so no font file is needed */
-  .t {
+  .abs { position: absolute; }
+  .fill {
     position: absolute;
-    left: 1165.32px;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     display: block;
     overflow: visible;
-    opacity: 0;
-    will-change: transform, opacity, filter;
   }
-  #tTelkom { top: 599.48px; }
-  #tHub    { top: 763.38px; }
+
+  /* Light that floods out of the door: a soft circle that only scales (GPU-friendly) */
+  #flood {
+    left: 51.951%;
+    top: 53.169%;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, var(--light) 72%, rgba(240, 240, 242, 0) 100%);
+    transform: scale(0.001);
+  }
+
+  /* Wordmark sits behind the D. The clip window moves with the D while the text inside
+     moves the other way, so the text appears to slide out from behind the D. */
+  #textClip { left: 27.4024%; top: 0; width: 72.5976%; height: 100%; overflow: hidden; }
+  #textInner { position: absolute; inset: 0; }
+  .t { position: absolute; display: block; overflow: visible; opacity: 0; }
+  #tTelkom { left: 8.998%; top: 34.2364%; width: 21.7144%; height: 11.9338%; }
+  #tHub    { left: 8.998%; top: 43.5968%; width: 66.1211%; height: 23.2707%; }
+
+  /* Logo box = Figma logo (x 611, y 631, 450 x 489.824) */
+  #logoPos { left: 17.7927%; top: 36.0366%; width: 13.1042%; height: 27.974%; }
+  #logoEnter { position: absolute; inset: 0; opacity: 0; }
+  #doorLight { opacity: 0; }
+
+  .sheen {
+    position: absolute;
+    inset: 0;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
+  .band {
+    position: absolute;
+    top: -20%;
+    left: 0;
+    width: 40%;
+    height: 140%;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0));
+    transform: translateX(-140%) skewX(-22deg);
+  }
+  #sheen2 { opacity: 0.6; }
+
+  /* Glow from the door gap: static soft gradients, only their opacity animates */
+  .glow { position: absolute; opacity: 0; }
+  #bloomS {
+    left: 53.778%; top: 15.312%; width: 22.222%; height: 81.661%;
+    background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.5) 45%, rgba(255, 255, 255, 0));
+  }
+  #bloomL {
+    left: 31.556%; top: 0%; width: 66.667%; height: 114.327%;
+    background: radial-gradient(closest-side, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0));
+  }
+
+  /* Sparkle box = its Figma bounds inside the logo */
+  #sparkle { left: 14.196%; top: 42.419%; width: 32.769%; height: 30.105%; opacity: 0; }
+  #spScale, #spTw { position: absolute; inset: 0; }
+  #sparkleGlow { opacity: 0; }
+  .mini { position: absolute; opacity: 0; }
 </style>
 </head>
 <body>
-  <div id="flood"></div>
+  <div id="bgLight"></div>
 
   <div id="stage">
-    <div id="logo">
-      <svg width="450" height="489.824" viewBox="0 0 450 489.824" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <!-- Brand gradient (from Figma) -->
-          <linearGradient id="grad" gradientUnits="userSpaceOnUse" x1="341" y1="96.06" x2="-9.24" y2="472.82">
-            <stop stop-color="#FF0808"/>
-            <stop offset="0.225043" stop-color="#CE0101"/>
-            <stop offset="0.432172" stop-color="#A50000"/>
-            <stop offset="1" stop-color="#8A2A2A"/>
-          </linearGradient>
+    <div id="flood" class="abs"></div>
 
-          <!-- Door frame: the D outline minus the doorway (static) -->
-          <path id="frameGeom" d="M217.241 0C345.79 0 450 104.21 450 232.759V240.111C450 334.336 394.114 415.13 314.107 451.816L312.284 139.655C310.5 105 292 89.0002 265.732 85.3447L58.1895 77.5859L0 75.42V0H217.241Z"/>
-          <!-- Door leaf: rebuilt every frame, from closed (fills the D) to open -->
-          <path id="leafGeom" d=""/>
-          <!-- Doorway: where the light lives, hidden behind frame + leaf -->
-          <path id="doorwayGeom" d="M0 60H300L316 120L315.6 445L314.1 451.8L0 462Z"/>
-          <!-- Sparkle (from Figma) -->
-          <path id="sparkleGeom" d="M138.835 207.799C137.8 207.782 136.946 208.607 136.929 209.643C136.511 234.82 130.812 252.087 119.438 263.001C108.238 273.747 91.1571 278.7 66.9648 278.46L65.8076 278.445L65.6162 278.451C64.6691 278.531 63.9175 279.318 63.9014 280.289C63.8844 281.324 64.7098 282.177 65.7451 282.194C90.5389 282.605 107.813 288.265 118.826 299.631C129.838 310.996 134.96 328.448 134.548 353.316C134.531 354.352 135.356 355.204 136.392 355.222C137.427 355.239 138.28 354.413 138.297 353.378C138.709 328.507 144.37 311.235 155.733 300.242C167.097 289.249 184.548 284.163 209.419 284.575C210.454 284.592 211.307 283.768 211.324 282.732C211.341 281.697 210.516 280.843 209.48 280.826C184.597 280.414 167.325 274.899 156.336 263.613C145.349 252.33 140.261 234.885 140.679 209.704C140.696 208.669 139.87 207.816 138.835 207.799Z"/>
-          <!-- Small 4-point star (unit size) for the twinkle particles -->
-          <path id="miniGeom" d="M0 -1C0.07 -0.24 0.24 -0.07 1 0C0.24 0.07 0.07 0.24 0 1C-0.07 0.24 -0.24 0.07 -1 0C-0.24 -0.07 -0.07 -0.24 0 -1Z"/>
-
-          <clipPath id="logoClip">
-            <use href="#frameGeom"/>
-            <use href="#leafGeom"/>
-          </clipPath>
-
-          <!-- Visible gap = doorway minus frame minus leaf -->
-          <mask id="gapMask" maskUnits="userSpaceOnUse" x="-300" y="-300" width="1050" height="1100">
-            <use href="#doorwayGeom" fill="#fff"/>
-            <use href="#frameGeom" fill="#000"/>
-            <use href="#leafGeom" fill="#000"/>
-          </mask>
-
-          <filter id="blurS" filterUnits="userSpaceOnUse" x="-300" y="-300" width="1050" height="1100">
-            <feGaussianBlur stdDeviation="9"/>
-          </filter>
-          <filter id="blurL" filterUnits="userSpaceOnUse" x="-300" y="-300" width="1050" height="1100">
-            <feGaussianBlur stdDeviation="40"/>
-          </filter>
-          <filter id="glow" filterUnits="userSpaceOnUse" x="-300" y="-300" width="1050" height="1100">
-            <feGaussianBlur stdDeviation="8"/>
-          </filter>
-
-          <linearGradient id="sheenGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stop-color="#fff" stop-opacity="0"/>
-            <stop offset="0.5" stop-color="#fff" stop-opacity="0.42"/>
-            <stop offset="1" stop-color="#fff" stop-opacity="0"/>
-          </linearGradient>
-        </defs>
-
-        <!-- light behind the door -->
-        <use id="doorLight" href="#doorwayGeom" fill="#fff" opacity="0"/>
-
-        <!-- the D: frame + door leaf -->
-        <use href="#frameGeom" fill="url(#grad)"/>
-        <use href="#leafGeom" fill="url(#grad)"/>
-
-        <!-- sheen that sweeps across the D -->
-        <g clip-path="url(#logoClip)">
-          <rect id="sheen" x="-90" y="-150" width="180" height="800" fill="url(#sheenGrad)" opacity="0"/>
-        </g>
-
-        <!-- glow spilling out of the door gap -->
-        <g id="bloomL" opacity="0" filter="url(#blurL)">
-          <g mask="url(#gapMask)"><rect x="-50" y="-50" width="550" height="600" fill="#fff"/></g>
-        </g>
-        <g id="bloomS" opacity="0" filter="url(#blurS)">
-          <g mask="url(#gapMask)"><rect x="-50" y="-50" width="550" height="600" fill="#fff"/></g>
-        </g>
-
-        <!-- sparkle -->
-        <g id="sparkle" opacity="0">
-          <use id="sparkleGlow" href="#sparkleGeom" fill="#fff" filter="url(#glow)" opacity="0"/>
-          <use href="#sparkleGeom" fill="#f0f0f2"/>
-        </g>
-
-        <!-- twinkle particles -->
-        <g id="minis">
-          <g class="mini" opacity="0"><use href="#miniGeom" fill="#fff" filter="url(#glow)" opacity="0.6"/><use href="#miniGeom" fill="#fff"/></g>
-          <g class="mini" opacity="0"><use href="#miniGeom" fill="#fff" filter="url(#glow)" opacity="0.6"/><use href="#miniGeom" fill="#fff"/></g>
-          <g class="mini" opacity="0"><use href="#miniGeom" fill="#fff" filter="url(#glow)" opacity="0.6"/><use href="#miniGeom" fill="#fff"/></g>
-        </g>
-      </svg>
+    <div id="textClip" class="abs">
+      <div id="textInner">
+        <svg id="tTelkom" class="t" viewBox="0 0 541.34 208.96" preserveAspectRatio="none" role="img" aria-label="Telkom" xmlns="http://www.w3.org/2000/svg"><path fill="#140101" d="M41.08 166.09L41.08 64.29L3.21 64.29L3.21 41.97L103.94 41.97L103.94 64.29L66.08 64.29L66.08 166.09L41.08 166.09ZM133.59 168.06Q121.09 168.06 111.36 162.34Q101.62 156.63 96.18 146.45Q90.73 136.27 90.73 122.87L90.73 122.87Q90.73 109.48 96.18 99.12Q101.62 88.76 111.36 83.05Q121.09 77.33 133.59 77.33L133.59 77.33Q145.56 77.33 154.93 82.69Q164.31 88.05 169.40 97.87Q174.49 107.69 174.49 120.91L174.49 120.91L174.49 129.30L112.70 129.30Q113.23 138.41 119.21 143.59Q125.20 148.77 134.13 148.77L134.13 148.77Q141.27 148.77 146.63 145.38Q151.99 141.98 155.38 135.20L155.38 135.20L172.70 142.16Q168.95 153.95 158.15 161.00Q147.34 168.06 133.59 168.06L133.59 168.06ZM151.63 112.87Q151.27 105.37 146.27 100.37Q141.27 95.37 132.70 95.37L132.70 95.37Q124.48 95.37 119.21 100.19Q113.95 105.01 113.23 112.87L113.23 112.87L151.63 112.87ZM188.05 166.09L188.05 41.97L211.27 41.97L211.27 166.09L188.05 166.09ZM229.32 166.09L229.32 41.97L252.54 41.97L252.54 112.16L282.36 79.47L313.44 79.47L277.72 119.12L312.37 166.09L285.04 166.09L260.58 134.30L252.54 143.05L252.54 166.09L229.32 166.09ZM354.52 168.77Q341.84 168.77 331.66 162.88Q321.48 156.99 315.68 146.54Q309.87 136.09 309.87 122.87L309.87 122.87Q309.87 109.66 315.68 99.30Q321.48 88.94 331.66 83.05Q341.84 77.15 354.52 77.15L354.52 77.15Q367.20 77.15 377.47 83.05Q387.74 88.94 393.55 99.30Q399.35 109.66 399.35 122.87L399.35 122.87Q399.35 136.09 393.55 146.54Q387.74 156.99 377.47 162.88Q367.20 168.77 354.52 168.77L354.52 168.77ZM354.52 147.34Q360.77 147.34 365.60 144.30Q370.42 141.27 373.10 135.73Q375.78 130.20 375.78 122.87L375.78 122.87Q375.78 115.55 373.10 110.01Q370.42 104.48 365.60 101.53Q360.77 98.58 354.52 98.58L354.52 98.58Q348.27 98.58 343.45 101.62Q338.63 104.66 336.04 110.19Q333.45 115.73 333.45 123.05L333.45 123.05Q333.45 130.37 336.04 135.91Q338.63 141.45 343.45 144.39Q348.27 147.34 354.52 147.34L354.52 147.34ZM410.06 166.09L410.06 79.47L432.56 79.47L432.39 90.01Q436.14 84.12 442.74 80.73Q449.35 77.33 457.39 77.33L457.39 77.33Q465.07 77.33 471.32 80.55Q477.57 83.76 481.50 90.73L481.50 90.73Q486.32 84.12 493.38 80.73Q500.43 77.33 507.93 77.33L507.93 77.33Q515.97 77.33 522.84 80.90Q529.72 84.48 533.47 90.99Q537.22 97.51 537.22 106.26L537.22 106.26L537.22 166.09L514.00 166.09L514.00 114.48Q514.00 106.98 510.43 102.87Q506.86 98.76 500.61 98.76L500.61 98.76Q493.82 98.76 489.71 103.41Q485.61 108.05 485.61 116.80L485.61 116.80L485.61 166.09L462.39 166.09L462.39 114.84Q462.39 107.34 458.82 103.05Q455.25 98.76 448.64 98.76L448.64 98.76Q443.99 98.76 440.51 101.08Q437.03 103.41 435.15 107.78Q433.28 112.16 433.28 118.23L433.28 118.23L433.28 166.09L410.06 166.09Z"/></svg>
+        <svg id="tHub" class="t" viewBox="0 0 1648.4 407.47" preserveAspectRatio="none" role="img" aria-label="Digital Hub" xmlns="http://www.w3.org/2000/svg"><path fill="#140101" d="M28.91 323.88L28.91 82.54L117.36 82.54Q155.32 82.54 183.36 97.34Q211.39 112.14 226.54 139.30Q241.69 166.47 241.69 203.38L241.69 203.38Q241.69 239.95 226.54 267.29Q211.39 294.63 183.19 309.26Q154.98 323.88 117.02 323.88L117.02 323.88L28.91 323.88ZM118.76 279.31Q141.05 279.31 157.41 270.08Q173.78 260.85 182.66 243.78Q191.54 226.72 191.54 203.38L191.54 203.38Q191.54 180.05 182.66 162.81Q173.78 145.57 157.59 136.34Q141.39 127.12 119.11 127.12L119.11 127.12L77.66 127.12L77.66 279.31L118.76 279.31ZM268.86 323.88L268.86 154.98L314.14 154.98L314.14 323.88L268.86 323.88ZM267.82 78.36L314.83 78.36L314.83 122.24L267.82 122.24L267.82 78.36ZM417.57 394.58Q386.23 394.58 364.81 379.08Q343.39 363.58 337.82 335.72L337.82 335.72L376.13 325.97Q380.31 340.25 391.63 348.26Q402.95 356.27 418.27 356.27L418.27 356.27Q436.38 356.27 447.52 345.82Q458.67 335.38 458.67 318.66L458.67 318.66L458.32 298.11Q451.70 308.21 438.82 313.78Q425.93 319.36 412.35 319.36L412.35 319.36Q390.06 319.36 373.17 308.91Q356.28 298.46 346.88 279.31Q337.47 260.15 337.47 235.42L337.47 235.42Q337.47 210.70 346.88 191.72Q356.28 172.74 373.17 162.12Q390.06 151.49 412.00 151.49L412.00 151.49Q424.54 151.49 437.77 156.89Q451.01 162.29 460.06 172.39L460.06 172.39L460.06 154.98L504.64 154.98L504.64 313.43Q504.64 337.46 493.67 355.75Q482.70 374.03 462.85 384.31Q443.00 394.58 417.57 394.58L417.57 394.58ZM421.40 278.61Q432.55 278.61 441.25 273.21Q449.96 267.81 454.66 258.06Q459.36 248.31 459.36 235.42L459.36 235.42Q459.36 222.89 454.49 212.96Q449.61 203.04 441.08 197.64Q432.55 192.24 421.40 192.24L421.40 192.24Q410.26 192.24 401.73 197.64Q393.19 203.04 388.49 212.96Q383.79 222.89 383.79 235.42L383.79 235.42Q383.79 248.31 388.49 258.06Q393.19 267.81 401.73 273.21Q410.26 278.61 421.40 278.61L421.40 278.61ZM534.59 323.88L534.59 154.98L579.87 154.98L579.87 323.88L534.59 323.88ZM533.55 78.36L580.56 78.36L580.56 122.24L533.55 122.24L533.55 78.36ZM683.66 327.02Q665.55 327.02 652.49 320.92Q639.43 314.83 632.64 303.16Q625.85 291.49 625.85 275.13L625.85 275.13L625.85 193.28L594.15 193.28L594.15 154.98L626.54 154.98L626.54 103.09L671.12 103.09L671.12 154.98L706.99 154.98L706.99 193.28L671.12 193.28L671.12 266.77Q671.12 273.38 673.56 277.74Q676.00 282.09 680.87 284.18Q685.75 286.27 693.41 286.27L693.41 286.27Q695.85 286.27 698.28 286.10Q700.72 285.92 703.16 285.57Q705.60 285.23 708.04 284.88L708.04 284.88L708.04 323.53Q704.55 325.28 697.41 326.15Q690.27 327.02 683.66 327.02L683.66 327.02ZM783.27 326.67Q767.25 326.67 755.23 321.10Q743.22 315.52 736.25 305.08Q729.29 294.63 728.59 280.70L728.59 280.70Q727.20 261.54 739.73 247.44Q752.27 233.33 781.53 226.72L781.53 226.72L818.09 218.36Q825.76 216.62 829.24 213.48Q832.72 210.35 832.72 204.78L832.72 204.78Q832.72 196.07 825.58 190.85Q818.44 185.62 805.90 185.62L805.90 185.62Q791.97 185.62 782.57 192.94Q773.17 200.25 770.03 213.83L770.03 213.83L732.77 205.47Q736.25 181.10 756.45 166.47Q776.65 151.84 805.21 151.84L805.21 151.84Q825.76 151.84 842.12 159.33Q858.49 166.82 867.37 180.92Q876.25 195.03 876.25 214.18L876.25 214.18L876.25 295.33Q876.25 304.03 877.12 311.17Q877.99 318.31 879.39 323.88L879.39 323.88L835.16 323.88Q833.77 318.66 833.42 314.13Q833.07 309.60 833.07 305.08L833.07 305.08L833.07 300.90Q828.19 311.69 814.96 319.18Q801.73 326.67 783.27 326.67L783.27 326.67ZM799.64 294.63Q809.04 294.28 816.53 289.40Q824.01 284.53 828.37 276.87Q832.72 269.21 832.72 259.80L832.72 259.80L832.72 243.78Q831.33 244.83 828.54 245.70Q825.76 246.57 821.92 247.61L821.92 247.61L793.72 254.23Q782.22 257.02 777.17 263.11Q772.12 269.21 773.86 277.91L773.86 277.91Q775.95 286.97 783.09 290.97Q790.23 294.98 799.64 294.63L799.64 294.63ZM910.73 323.88L910.73 81.84L956.01 81.84L956.01 323.88L910.73 323.88ZM1061.21 323.88L1061.21 81.84L1109.96 81.84L1109.96 177.96L1215.14 177.96L1215.14 81.84L1263.89 81.84L1263.89 323.88L1215.14 323.88L1215.14 221.49L1109.96 221.49L1109.96 323.88L1061.21 323.88ZM1448.13 154.98L1448.13 323.88L1404.59 323.88L1404.25 302.99Q1396.93 315.18 1383.87 321.62Q1370.81 328.06 1354.10 328.06L1354.10 328.06Q1337.38 328.06 1323.97 320.23Q1310.56 312.39 1303.08 298.11Q1295.59 283.83 1295.59 264.68L1295.59 264.68L1295.59 154.98L1340.86 154.98L1340.86 254.58Q1340.86 268.86 1349.39 277.39Q1357.93 285.92 1371.51 285.92L1371.51 285.92Q1380.56 285.92 1387.70 280.87Q1394.84 275.82 1398.85 266.77Q1402.85 257.71 1402.85 247.27L1402.85 247.27L1402.85 154.98L1448.13 154.98ZM1569.33 327.37Q1554.36 327.37 1541.30 321.79Q1528.24 316.22 1520.93 304.73L1520.93 304.73L1521.27 323.88L1476.35 323.88L1476.35 81.84L1521.62 81.84L1521.62 175.18Q1528.94 163.33 1542.00 157.41Q1555.06 151.49 1570.03 151.49L1570.03 151.49Q1591.62 151.49 1609.38 162.99Q1627.15 174.48 1637.25 194.68Q1647.35 214.88 1647.35 239.95L1647.35 239.95Q1647.35 264.68 1637.07 284.70Q1626.80 304.73 1608.86 316.05Q1590.93 327.37 1569.33 327.37L1569.33 327.37ZM1560.98 285.57Q1572.82 285.57 1582.05 279.83Q1591.28 274.08 1596.33 263.81Q1601.37 253.53 1601.37 239.95L1601.37 239.95Q1601.37 226.02 1596.33 215.57Q1591.28 205.13 1582.05 199.21Q1572.82 193.28 1560.98 193.28L1560.98 193.28Q1549.14 193.28 1540.26 199.03Q1531.37 204.78 1526.32 215.23Q1521.27 225.67 1521.27 239.26L1521.27 239.26Q1521.27 252.84 1526.32 263.46Q1531.37 274.08 1540.26 279.83Q1549.14 285.57 1560.98 285.57L1560.98 285.57Z"/></svg>
+      </div>
     </div>
 
-    <!-- text sits behind the D and is revealed as the D slides away -->
-    <div id="textWrap">
-      <svg id="tTelkom" class="t" width="541.34" height="208.96" viewBox="0 0 541.34 208.96" role="img" aria-label="Telkom" xmlns="http://www.w3.org/2000/svg"><path fill="#140101" d="M41.08 166.09L41.08 64.29L3.21 64.29L3.21 41.97L103.94 41.97L103.94 64.29L66.08 64.29L66.08 166.09L41.08 166.09ZM133.59 168.06Q121.09 168.06 111.36 162.34Q101.62 156.63 96.18 146.45Q90.73 136.27 90.73 122.87L90.73 122.87Q90.73 109.48 96.18 99.12Q101.62 88.76 111.36 83.05Q121.09 77.33 133.59 77.33L133.59 77.33Q145.56 77.33 154.93 82.69Q164.31 88.05 169.40 97.87Q174.49 107.69 174.49 120.91L174.49 120.91L174.49 129.30L112.70 129.30Q113.23 138.41 119.21 143.59Q125.20 148.77 134.13 148.77L134.13 148.77Q141.27 148.77 146.63 145.38Q151.99 141.98 155.38 135.20L155.38 135.20L172.70 142.16Q168.95 153.95 158.15 161.00Q147.34 168.06 133.59 168.06L133.59 168.06ZM151.63 112.87Q151.27 105.37 146.27 100.37Q141.27 95.37 132.70 95.37L132.70 95.37Q124.48 95.37 119.21 100.19Q113.95 105.01 113.23 112.87L113.23 112.87L151.63 112.87ZM188.05 166.09L188.05 41.97L211.27 41.97L211.27 166.09L188.05 166.09ZM229.32 166.09L229.32 41.97L252.54 41.97L252.54 112.16L282.36 79.47L313.44 79.47L277.72 119.12L312.37 166.09L285.04 166.09L260.58 134.30L252.54 143.05L252.54 166.09L229.32 166.09ZM354.52 168.77Q341.84 168.77 331.66 162.88Q321.48 156.99 315.68 146.54Q309.87 136.09 309.87 122.87L309.87 122.87Q309.87 109.66 315.68 99.30Q321.48 88.94 331.66 83.05Q341.84 77.15 354.52 77.15L354.52 77.15Q367.20 77.15 377.47 83.05Q387.74 88.94 393.55 99.30Q399.35 109.66 399.35 122.87L399.35 122.87Q399.35 136.09 393.55 146.54Q387.74 156.99 377.47 162.88Q367.20 168.77 354.52 168.77L354.52 168.77ZM354.52 147.34Q360.77 147.34 365.60 144.30Q370.42 141.27 373.10 135.73Q375.78 130.20 375.78 122.87L375.78 122.87Q375.78 115.55 373.10 110.01Q370.42 104.48 365.60 101.53Q360.77 98.58 354.52 98.58L354.52 98.58Q348.27 98.58 343.45 101.62Q338.63 104.66 336.04 110.19Q333.45 115.73 333.45 123.05L333.45 123.05Q333.45 130.37 336.04 135.91Q338.63 141.45 343.45 144.39Q348.27 147.34 354.52 147.34L354.52 147.34ZM410.06 166.09L410.06 79.47L432.56 79.47L432.39 90.01Q436.14 84.12 442.74 80.73Q449.35 77.33 457.39 77.33L457.39 77.33Q465.07 77.33 471.32 80.55Q477.57 83.76 481.50 90.73L481.50 90.73Q486.32 84.12 493.38 80.73Q500.43 77.33 507.93 77.33L507.93 77.33Q515.97 77.33 522.84 80.90Q529.72 84.48 533.47 90.99Q537.22 97.51 537.22 106.26L537.22 106.26L537.22 166.09L514.00 166.09L514.00 114.48Q514.00 106.98 510.43 102.87Q506.86 98.76 500.61 98.76L500.61 98.76Q493.82 98.76 489.71 103.41Q485.61 108.05 485.61 116.80L485.61 116.80L485.61 166.09L462.39 166.09L462.39 114.84Q462.39 107.34 458.82 103.05Q455.25 98.76 448.64 98.76L448.64 98.76Q443.99 98.76 440.51 101.08Q437.03 103.41 435.15 107.78Q433.28 112.16 433.28 118.23L433.28 118.23L433.28 166.09L410.06 166.09Z"/></svg>
-      <svg id="tHub" class="t" width="1648.4" height="407.47" viewBox="0 0 1648.4 407.47" role="img" aria-label="Digital Hub" xmlns="http://www.w3.org/2000/svg"><path fill="#140101" d="M28.91 323.88L28.91 82.54L117.36 82.54Q155.32 82.54 183.36 97.34Q211.39 112.14 226.54 139.30Q241.69 166.47 241.69 203.38L241.69 203.38Q241.69 239.95 226.54 267.29Q211.39 294.63 183.19 309.26Q154.98 323.88 117.02 323.88L117.02 323.88L28.91 323.88ZM118.76 279.31Q141.05 279.31 157.41 270.08Q173.78 260.85 182.66 243.78Q191.54 226.72 191.54 203.38L191.54 203.38Q191.54 180.05 182.66 162.81Q173.78 145.57 157.59 136.34Q141.39 127.12 119.11 127.12L119.11 127.12L77.66 127.12L77.66 279.31L118.76 279.31ZM268.86 323.88L268.86 154.98L314.14 154.98L314.14 323.88L268.86 323.88ZM267.82 78.36L314.83 78.36L314.83 122.24L267.82 122.24L267.82 78.36ZM417.57 394.58Q386.23 394.58 364.81 379.08Q343.39 363.58 337.82 335.72L337.82 335.72L376.13 325.97Q380.31 340.25 391.63 348.26Q402.95 356.27 418.27 356.27L418.27 356.27Q436.38 356.27 447.52 345.82Q458.67 335.38 458.67 318.66L458.67 318.66L458.32 298.11Q451.70 308.21 438.82 313.78Q425.93 319.36 412.35 319.36L412.35 319.36Q390.06 319.36 373.17 308.91Q356.28 298.46 346.88 279.31Q337.47 260.15 337.47 235.42L337.47 235.42Q337.47 210.70 346.88 191.72Q356.28 172.74 373.17 162.12Q390.06 151.49 412.00 151.49L412.00 151.49Q424.54 151.49 437.77 156.89Q451.01 162.29 460.06 172.39L460.06 172.39L460.06 154.98L504.64 154.98L504.64 313.43Q504.64 337.46 493.67 355.75Q482.70 374.03 462.85 384.31Q443.00 394.58 417.57 394.58L417.57 394.58ZM421.40 278.61Q432.55 278.61 441.25 273.21Q449.96 267.81 454.66 258.06Q459.36 248.31 459.36 235.42L459.36 235.42Q459.36 222.89 454.49 212.96Q449.61 203.04 441.08 197.64Q432.55 192.24 421.40 192.24L421.40 192.24Q410.26 192.24 401.73 197.64Q393.19 203.04 388.49 212.96Q383.79 222.89 383.79 235.42L383.79 235.42Q383.79 248.31 388.49 258.06Q393.19 267.81 401.73 273.21Q410.26 278.61 421.40 278.61L421.40 278.61ZM534.59 323.88L534.59 154.98L579.87 154.98L579.87 323.88L534.59 323.88ZM533.55 78.36L580.56 78.36L580.56 122.24L533.55 122.24L533.55 78.36ZM683.66 327.02Q665.55 327.02 652.49 320.92Q639.43 314.83 632.64 303.16Q625.85 291.49 625.85 275.13L625.85 275.13L625.85 193.28L594.15 193.28L594.15 154.98L626.54 154.98L626.54 103.09L671.12 103.09L671.12 154.98L706.99 154.98L706.99 193.28L671.12 193.28L671.12 266.77Q671.12 273.38 673.56 277.74Q676.00 282.09 680.87 284.18Q685.75 286.27 693.41 286.27L693.41 286.27Q695.85 286.27 698.28 286.10Q700.72 285.92 703.16 285.57Q705.60 285.23 708.04 284.88L708.04 284.88L708.04 323.53Q704.55 325.28 697.41 326.15Q690.27 327.02 683.66 327.02L683.66 327.02ZM783.27 326.67Q767.25 326.67 755.23 321.10Q743.22 315.52 736.25 305.08Q729.29 294.63 728.59 280.70L728.59 280.70Q727.20 261.54 739.73 247.44Q752.27 233.33 781.53 226.72L781.53 226.72L818.09 218.36Q825.76 216.62 829.24 213.48Q832.72 210.35 832.72 204.78L832.72 204.78Q832.72 196.07 825.58 190.85Q818.44 185.62 805.90 185.62L805.90 185.62Q791.97 185.62 782.57 192.94Q773.17 200.25 770.03 213.83L770.03 213.83L732.77 205.47Q736.25 181.10 756.45 166.47Q776.65 151.84 805.21 151.84L805.21 151.84Q825.76 151.84 842.12 159.33Q858.49 166.82 867.37 180.92Q876.25 195.03 876.25 214.18L876.25 214.18L876.25 295.33Q876.25 304.03 877.12 311.17Q877.99 318.31 879.39 323.88L879.39 323.88L835.16 323.88Q833.77 318.66 833.42 314.13Q833.07 309.60 833.07 305.08L833.07 305.08L833.07 300.90Q828.19 311.69 814.96 319.18Q801.73 326.67 783.27 326.67L783.27 326.67ZM799.64 294.63Q809.04 294.28 816.53 289.40Q824.01 284.53 828.37 276.87Q832.72 269.21 832.72 259.80L832.72 259.80L832.72 243.78Q831.33 244.83 828.54 245.70Q825.76 246.57 821.92 247.61L821.92 247.61L793.72 254.23Q782.22 257.02 777.17 263.11Q772.12 269.21 773.86 277.91L773.86 277.91Q775.95 286.97 783.09 290.97Q790.23 294.98 799.64 294.63L799.64 294.63ZM910.73 323.88L910.73 81.84L956.01 81.84L956.01 323.88L910.73 323.88ZM1061.21 323.88L1061.21 81.84L1109.96 81.84L1109.96 177.96L1215.14 177.96L1215.14 81.84L1263.89 81.84L1263.89 323.88L1215.14 323.88L1215.14 221.49L1109.96 221.49L1109.96 323.88L1061.21 323.88ZM1448.13 154.98L1448.13 323.88L1404.59 323.88L1404.25 302.99Q1396.93 315.18 1383.87 321.62Q1370.81 328.06 1354.10 328.06L1354.10 328.06Q1337.38 328.06 1323.97 320.23Q1310.56 312.39 1303.08 298.11Q1295.59 283.83 1295.59 264.68L1295.59 264.68L1295.59 154.98L1340.86 154.98L1340.86 254.58Q1340.86 268.86 1349.39 277.39Q1357.93 285.92 1371.51 285.92L1371.51 285.92Q1380.56 285.92 1387.70 280.87Q1394.84 275.82 1398.85 266.77Q1402.85 257.71 1402.85 247.27L1402.85 247.27L1402.85 154.98L1448.13 154.98ZM1569.33 327.37Q1554.36 327.37 1541.30 321.79Q1528.24 316.22 1520.93 304.73L1520.93 304.73L1521.27 323.88L1476.35 323.88L1476.35 81.84L1521.62 81.84L1521.62 175.18Q1528.94 163.33 1542.00 157.41Q1555.06 151.49 1570.03 151.49L1570.03 151.49Q1591.62 151.49 1609.38 162.99Q1627.15 174.48 1637.25 194.68Q1647.35 214.88 1647.35 239.95L1647.35 239.95Q1647.35 264.68 1637.07 284.70Q1626.80 304.73 1608.86 316.05Q1590.93 327.37 1569.33 327.37L1569.33 327.37ZM1560.98 285.57Q1572.82 285.57 1582.05 279.83Q1591.28 274.08 1596.33 263.81Q1601.37 253.53 1601.37 239.95L1601.37 239.95Q1601.37 226.02 1596.33 215.57Q1591.28 205.13 1582.05 199.21Q1572.82 193.28 1560.98 193.28L1560.98 193.28Q1549.14 193.28 1540.26 199.03Q1531.37 204.78 1526.32 215.23Q1521.27 225.67 1521.27 239.26L1521.27 239.26Q1521.27 252.84 1526.32 263.46Q1531.37 274.08 1540.26 279.83Q1549.14 285.57 1560.98 285.57L1560.98 285.57Z"/></svg>
+    <div id="logoPos" class="abs">
+      <div id="logoEnter">
+        <!-- light behind the door -->
+        <svg id="doorLight" class="fill" viewBox="0 0 450 489.824" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#fff" d="M0 60H300L316 120L315.6 445L314.1 451.8L0 462Z"/>
+        </svg>
+
+        <!-- the D: door frame + door leaf (the leaf is reshaped while the door opens) -->
+        <svg id="dSvg" class="fill" viewBox="0 0 450 489.824" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="grad" gradientUnits="userSpaceOnUse" x1="341" y1="96.06" x2="-9.24" y2="472.82">
+              <stop stop-color="#FF0808"/>
+              <stop offset="0.225043" stop-color="#CE0101"/>
+              <stop offset="0.432172" stop-color="#A50000"/>
+              <stop offset="1" stop-color="#8A2A2A"/>
+            </linearGradient>
+          </defs>
+          <path id="frame" fill="url(#grad)" d=""/>
+          <path id="leaf" fill="url(#grad)" d=""/>
+        </svg>
+
+        <!-- sheens, each masked to the D shape at that moment -->
+        <div id="sheen1" class="sheen"><div class="band"></div></div>
+        <div id="sheen2" class="sheen"><div class="band"></div></div>
+
+        <div id="bloomL" class="glow"></div>
+        <div id="bloomS" class="glow"></div>
+
+        <!-- sparkle (from Figma) -->
+        <div id="sparkle" class="abs">
+          <div id="spScale">
+            <div id="spTw">
+              <svg id="sparkleGlow" class="fill" viewBox="63.88 207.78 147.46 147.46" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <filter id="sglow" filterUnits="userSpaceOnUse" x="0" y="140" width="280" height="290">
+                    <feGaussianBlur stdDeviation="8"/>
+                  </filter>
+                  <path id="sparkleGeom" d="M138.835 207.799C137.8 207.782 136.946 208.607 136.929 209.643C136.511 234.82 130.812 252.087 119.438 263.001C108.238 273.747 91.1571 278.7 66.9648 278.46L65.8076 278.445L65.6162 278.451C64.6691 278.531 63.9175 279.318 63.9014 280.289C63.8844 281.324 64.7098 282.177 65.7451 282.194C90.5389 282.605 107.813 288.265 118.826 299.631C129.838 310.996 134.96 328.448 134.548 353.316C134.531 354.352 135.356 355.204 136.392 355.222C137.427 355.239 138.28 354.413 138.297 353.378C138.709 328.507 144.37 311.235 155.733 300.242C167.097 289.249 184.548 284.163 209.419 284.575C210.454 284.592 211.307 283.768 211.324 282.732C211.341 281.697 210.516 280.843 209.48 280.826C184.597 280.414 167.325 274.899 156.336 263.613C145.349 252.33 140.261 234.885 140.679 209.704C140.696 208.669 139.87 207.816 138.835 207.799Z"/>
+                </defs>
+                <use href="#sparkleGeom" fill="#fff" filter="url(#sglow)"/>
+              </svg>
+              <svg class="fill" viewBox="63.88 207.78 147.46 147.46" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <use href="#sparkleGeom" fill="#f0f0f2"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
 <script>
 (() => {
-  const STAGE_W = 3434, STAGE_H = 1751;
-  const SHIFT = 881;                 // scene 1 D sits centered at x=1492; final logo at x=611
-  const SPARKLE_C = [137.61, 281.51];
-  const GAP_POINT = [292, 300];      // where the light floods from (logo coords)
-
   const $ = (id) => document.getElementById(id);
-  const stage = $("stage"), logo = $("logo"), flood = $("flood");
-  const leaf = $("leafGeom"), grad = $("grad"), doorLight = $("doorLight");
-  const bloomS = $("bloomS"), bloomL = $("bloomL"), sheen = $("sheen");
-  const sparkle = $("sparkle"), sparkleGlow = $("sparkleGlow");
-  const minis = [...document.querySelectorAll(".mini")];
-  const tTelkom = $("tTelkom"), tHub = $("tHub"), textWrap = $("textWrap");
+  const stage = $("stage"), flood = $("flood"), leaf = $("leaf"), grad = $("grad");
 
-  // ---------- easing ----------
-  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-  const prog = (t, a, b) => clamp((t - a) / (b - a));
-  const lerp = (a, b, k) => a + (b - a) * k;
-  const outCubic = (x) => 1 - Math.pow(1 - x, 3);
-  const inOutCubic = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
-  const outBack = (x, c = 1.9) => 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2);
-  const bump = (x) => Math.sin(Math.PI * clamp(x));
+  // ---------- geometry (logo coordinates, 450 x 489.824, from Figma) ----------
+  const FRAME = "M217.241 0C345.79 0 450 104.21 450 232.759V240.111C450 334.336 394.114 415.13 314.107 451.816L312.284 139.655C310.5 105 292 89.0002 265.732 85.3447L58.1895 77.5859L0 75.42V0H217.241Z";
+  const CLOSED_D = "M217.241 0C345.79 0 450 104.21 450 232.759V240.111C450 371.8 340.83 477.27 209.22 472.73L0 465.518V0H217.241Z";
+  const OPEN_LEAF = "M0 66.19L236.396 112.5C251.5 115.5 264.5 124 265.491 145.474L271.252 489.824L3.1377 465.625L0 465.518Z";
+  $("frame").setAttribute("d", FRAME);
 
-  // ---------- door leaf geometry ----------
-  // Closed: the leaf fills the doorway so frame + leaf = the solid D of scene 1.
-  // Open:   the leaf matches the open door from the Figma logo.
+  // Door leaf: closed (fills the D, scene 1) -> open (Figma logo)
   const LEAF_CLOSED = {
     start: [0, 66.19],
     segs: [
@@ -211,15 +208,14 @@
       ["L", [0, 465.518]],
     ],
   };
-  // Turn every segment into a cubic so both shapes can be blended point by point.
+  const lerp = (a, b, k) => a + (b - a) * k;
   function toCubics(shape) {
     let p = shape.start;
     const out = [p];
     for (const s of shape.segs) {
       if (s[0] === "L") {
         const e = s[1];
-        out.push([lerp(p[0], e[0], 1 / 3), lerp(p[1], e[1], 1 / 3)],
-                 [lerp(p[0], e[0], 2 / 3), lerp(p[1], e[1], 2 / 3)], e);
+        out.push([lerp(p[0], e[0], 1 / 3), lerp(p[1], e[1], 1 / 3)], [lerp(p[0], e[0], 2 / 3), lerp(p[1], e[1], 2 / 3)], e);
         p = e;
       } else {
         out.push(s[1], s[2], s[3]);
@@ -229,41 +225,67 @@
     return out;
   }
   const PC = toCubics(LEAF_CLOSED), PO = toCubics(LEAF_OPEN);
-  const f = (n) => n.toFixed(3);
-
+  const f = (n) => n.toFixed(2);
+  let lastK = -1;
   function setDoor(k) {
+    if (k === lastK) return;   // nothing to redraw
+    lastK = k;
     const pts = PC.map((c, i) => [lerp(c[0], PO[i][0], k), lerp(c[1], PO[i][1], k)]);
     let d = `M${f(pts[0][0])} ${f(pts[0][1])}`;
     for (let i = 1; i < pts.length; i += 3) {
       d += `C${f(pts[i][0])} ${f(pts[i][1])} ${f(pts[i + 1][0])} ${f(pts[i + 1][1])} ${f(pts[i + 2][0])} ${f(pts[i + 2][1])}`;
     }
     leaf.setAttribute("d", d + "Z");
-    // gradient: scene 1 values -> scene 2 values
     grad.setAttribute("y1", f(lerp(96.06, 99.5, k)));
     grad.setAttribute("x2", f(lerp(-9.24, -22.5, k)));
     grad.setAttribute("y2", f(lerp(472.82, 477, k)));
   }
 
-  // ---------- layout ----------
-  let S = 1;
-  function fit() {
-    S = Math.min(innerWidth / STAGE_W, innerHeight / STAGE_H);
-    stage.style.transform = `translate(-50%, -50%) scale(${S})`;
-  }
-  const toScreen = (sx, sy) => [innerWidth / 2 + (sx - STAGE_W / 2) * S, innerHeight / 2 + (sy - STAGE_H / 2) * S];
-
-  function setText(el, p) {
-    el.style.opacity = p;
-    el.style.transform = `translateX(${(1 - p) * -110}px)`;
-    el.style.filter = p < 1 ? `blur(${(1 - p) * 14}px)` : "none";
+  // Sheen masks: closed D for scene 1, open logo for the finale
+  const maskURI = (paths) => `url("data:image/svg+xml,${encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 489.824" preserveAspectRatio="none">${paths.map((d) => `<path d="${d}"/>`).join("")}</svg>`
+  )}")`;
+  for (const [id, paths] of [["sheen1", [CLOSED_D]], ["sheen2", [FRAME, OPEN_LEAF]]]) {
+    const el = $(id), m = maskURI(paths);
+    el.style.webkitMaskImage = m;
+    el.style.maskImage = m;
   }
 
-  const MINI = [
-    { x: 228, y: 212, size: 20, at: 3.95 },
-    { x: 62, y: 396, size: 15, at: 4.07 },
-    { x: 212, y: 398, size: 13, at: 4.19 },
+  // Twinkle particles (logo coordinates)
+  const MINIS = [
+    { x: 228, y: 212, size: 20, at: 3.95, again: 6.0 },
+    { x: 62, y: 396, size: 15, at: 4.07, again: 6.1 },
+    { x: 212, y: 398, size: 13, at: 4.19, again: 6.2 },
   ];
-  const MINI_FINALE = [6.0, 6.1, 6.2];
+  const STAR = "M0 -1C0.07 -0.24 0.24 -0.07 1 0C0.24 0.07 0.07 0.24 0 1C-0.07 0.24 -0.24 0.07 -1 0C-0.24 -0.07 -0.07 -0.24 0 -1Z";
+  const logoEnter = $("logoEnter");
+  for (const m of MINIS) {
+    const el = document.createElement("div");
+    el.className = "mini";
+    el.style.left = `${((m.x - m.size) / 450) * 100}%`;
+    el.style.top = `${((m.y - m.size) / 489.824) * 100}%`;
+    el.style.width = `${((2 * m.size) / 450) * 100}%`;
+    el.style.height = `${((2 * m.size) / 489.824) * 100}%`;
+    el.innerHTML =
+      `<svg class="fill" viewBox="-1 -1 2 2" xmlns="http://www.w3.org/2000/svg">` +
+      `<defs><filter id="mg${m.size}" filterUnits="userSpaceOnUse" x="-3" y="-3" width="6" height="6"><feGaussianBlur stdDeviation="0.3"/></filter></defs>` +
+      `<path d="${STAR}" fill="#fff" opacity="0.6" filter="url(#mg${m.size})"/><path d="${STAR}" fill="#fff"/></svg>`;
+    logoEnter.appendChild(el);
+    m.el = el;
+  }
+
+  // Flood circle must reach the farthest corner of the screen
+  function fitFlood() {
+    const r = stage.getBoundingClientRect();
+    const gx = r.left + r.width * 0.51951, gy = r.top + r.height * 0.53169;
+    const far = Math.max(
+      Math.hypot(gx, gy), Math.hypot(innerWidth - gx, gy),
+      Math.hypot(gx, innerHeight - gy), Math.hypot(innerWidth - gx, innerHeight - gy)
+    );
+    const R = Math.ceil(far / 0.72) + 4;
+    flood.style.width = flood.style.height = `${2 * R}px`;
+    flood.style.marginLeft = flood.style.marginTop = `${-R}px`;
+  }
 
   // ---------- timeline (seconds) ----------
   //  0.3 - 1.3  D appears (scene 1)
@@ -272,107 +294,138 @@
   //  2.8 - 3.6  door swings open
   //  3.2 - 4.4  light floods the screen (dark -> light)
   //  3.75- 4.35 sparkle appears on the door
-  //  4.3 - 5.3  logo moves left, text comes in
+  //  4.3 - 5.3  logo moves left, text slides out from behind it
   //  5.7 - 6.6  final sheen + sparkle twinkle
-  const END = 6.8;
+  // Everything except the door shape runs as Web Animations on transform/opacity/filter,
+  // which the browser can hand to the GPU instead of redrawing each frame.
+  const E = {
+    out: "cubic-bezier(0.33, 1, 0.68, 1)",
+    inOut: "cubic-bezier(0.65, 0, 0.35, 1)",
+    back: "cubic-bezier(0.34, 1.7, 0.64, 1)",
+    sine: "cubic-bezier(0.37, 0, 0.63, 1)",
+  };
+  let anims = [];
+  function A(el, keyframes, start, dur, easing = "linear", fill = "both") {
+    const a = el.animate(keyframes, { delay: start * 1000, duration: dur * 1000, easing, fill });
+    anims.push(a);
+    return a;
+  }
 
-  function render(t) {
-    // D enter
-    const pe = outCubic(prog(t, 0.3, 1.3));
-    const ps = inOutCubic(prog(t, 4.3, 5.3));
-    const dx = lerp(SHIFT, 0, ps);
-    const sc = lerp(0.88, 1, pe);
-    logo.style.opacity = pe;
-    logo.style.transform = `translateX(${dx}px) scale(${sc})`;
-    logo.style.filter = pe < 1 ? `blur(${(1 - pe) * 14}px)` : "none";
+  function build() {
+    anims.forEach((a) => a.cancel());
+    anims = [];
+    const S = stage.getBoundingClientRect().width / 3434;   // screen px per Figma px
+    const blur = (n) => `blur(${(n * S).toFixed(2)}px)`;
+    const bands = document.querySelectorAll(".band");
+    const sweep = [{ transform: "translateX(-140%) skewX(-22deg)" }, { transform: "translateX(300%) skewX(-22deg)" }];
 
-    // door
-    const crack = outCubic(prog(t, 2.3, 2.6)) * 0.14;
-    const swing = inOutCubic(prog(t, 2.8, 3.6));
-    setDoor(crack + 0.86 * swing);
+    // scene 1: D appears, sheen
+    A(logoEnter, [
+      { opacity: 0, transform: "scale(0.88)", filter: blur(14) },
+      { opacity: 1, transform: "scale(1)", filter: "blur(0px)" },
+    ], 0.3, 1.0, E.out);
+    A(bands[0], sweep, 1.2, 0.9, E.inOut, "none");
 
-    // light through the door
-    const lightIn = prog(t, 2.3, 2.6);
-    const lightOut = prog(t, 3.9, 4.5);
-    doorLight.setAttribute("opacity", lightIn * (1 - lightOut));
-    bloomS.setAttribute("opacity", (0.7 * outCubic(lightIn) + 0.3 * swing) * (1 - lightOut));
-    bloomL.setAttribute("opacity", (0.4 * lightIn + 0.6 * swing) * (1 - lightOut));
+    // door light + glow (offsets are fractions of 2.3s -> 4.5s)
+    A($("doorLight"), [
+      { opacity: 0 }, { opacity: 1, offset: 0.136 }, { opacity: 1, offset: 0.727 }, { opacity: 0 },
+    ], 2.3, 2.2);
+    const glow = (peakCrack, shift) => [
+      { opacity: 0, transform: `translateX(${shift}%)`, easing: E.out },
+      { opacity: peakCrack, transform: `translateX(${shift}%)`, offset: 0.136 },
+      { opacity: peakCrack, transform: `translateX(${shift}%)`, offset: 0.227, easing: E.inOut },
+      { opacity: 1, transform: "translateX(0%)", offset: 0.591 },
+      { opacity: 1, transform: "translateX(0%)", offset: 0.727 },
+      { opacity: 0, transform: "translateX(0%)" },
+    ];
+    A($("bloomS"), glow(0.7, 18), 2.3, 2.2);
+    A($("bloomL"), glow(0.4, 6), 2.3, 2.2);
 
-    // flood: background turns light, spreading out from the door
-    const pf = inOutCubic(prog(t, 3.2, 4.4));
-    if (pf <= 0) {
-      flood.style.visibility = "hidden";
-    } else {
-      flood.style.visibility = "visible";
-      if (pf >= 1) {
-        flood.style.webkitMaskImage = flood.style.maskImage = "none";
-      } else {
-        const [gx, gy] = toScreen(611 + dx + GAP_POINT[0], 631 + GAP_POINT[1]);
-        const far = Math.max(
-          Math.hypot(gx, gy), Math.hypot(innerWidth - gx, gy),
-          Math.hypot(gx, innerHeight - gy), Math.hypot(innerWidth - gx, innerHeight - gy)
-        );
-        const r = pf * far * 1.05;
-        const feather = 40 + r * 0.35;
-        const m = `radial-gradient(circle at ${gx}px ${gy}px, #000 ${r}px, transparent ${r + feather}px)`;
-        flood.style.webkitMaskImage = flood.style.maskImage = m;
-      }
-    }
-
-    // sheen (scene 1, and once more at the end)
-    const sh1 = prog(t, 1.2, 2.1), sh2 = prog(t, 5.7, 6.6);
-    const sh = sh2 > 0 ? sh2 : sh1;
-    const shOn = (sh1 > 0 && sh1 < 1) || (sh2 > 0 && sh2 < 1);
-    sheen.setAttribute("opacity", shOn ? (sh2 > 0 ? 0.6 : 1) : 0);
-    sheen.setAttribute("transform", `translate(${lerp(-160, 620, inOutCubic(sh))} 0) skewX(-22)`);
+    // light floods the screen
+    A(flood, [{ transform: "scale(0.001)" }, { transform: "scale(1)" }], 3.2, 1.2, E.inOut);
+    A($("bgLight"), [{ opacity: 0 }, { opacity: 1 }], 4.4, 0.05);
 
     // sparkle
-    const pop = prog(t, 3.75, 4.35);
-    const tw = prog(t, 5.85, 6.45);
-    const sScale = (pop <= 0 ? 0 : outBack(pop)) * (1 + 0.16 * bump(tw));
-    const sRot = lerp(-150, 0, outCubic(pop)) + 90 * outCubic(tw);
-    sparkle.setAttribute("opacity", clamp(pop * 5));
-    sparkle.setAttribute("transform",
-      `translate(${SPARKLE_C[0]} ${SPARKLE_C[1]}) rotate(${sRot}) scale(${Math.max(sScale, 0.0001)}) translate(${-SPARKLE_C[0]} ${-SPARKLE_C[1]})`);
-    sparkleGlow.setAttribute("opacity", Math.max(bump(pop * 1.4), bump(tw)));
+    A($("sparkle"), [
+      { opacity: 0, transform: "rotate(-150deg)" },
+      { opacity: 1, transform: "rotate(-120deg)", offset: 0.2 },
+      { opacity: 1, transform: "rotate(0deg)" },
+    ], 3.75, 0.6, E.out);
+    A($("spScale"), [{ transform: "scale(0.001)" }, { transform: "scale(1)" }], 3.75, 0.6, E.back);
+    A($("spTw"), [
+      { transform: "rotate(0deg) scale(1)" },
+      { transform: "rotate(45deg) scale(1.16)", offset: 0.5 },
+      { transform: "rotate(90deg) scale(1)" },
+    ], 5.85, 0.6, E.out);
+    const bump = [{ opacity: 0 }, { opacity: 1, easing: E.sine }, { opacity: 0 }];
+    A($("sparkleGlow"), bump, 3.75, 0.43, E.sine, "none");
+    A($("sparkleGlow"), bump, 5.85, 0.6, E.sine, "none");
+    const twinkle = [
+      { opacity: 0, transform: "rotate(0deg) scale(0.2)", easing: E.sine },
+      { opacity: 1, transform: "rotate(45deg) scale(1)", easing: E.sine },
+      { opacity: 0, transform: "rotate(90deg) scale(0.2)" },
+    ];
+    for (const m of MINIS) {
+      A(m.el, twinkle, m.at, 0.6, "linear", "none");
+      A(m.el, twinkle, m.again, 0.5, "linear", "none");
+    }
 
-    // twinkle particles
-    MINI.forEach((m, i) => {
-      const a = prog(t, m.at, m.at + 0.6), b = prog(t, MINI_FINALE[i], MINI_FINALE[i] + 0.5);
-      const k = Math.max(bump(a), bump(b));
-      const rot = 90 * (a > 0 && a < 1 ? a : b);
-      minis[i].setAttribute("opacity", k);
-      minis[i].setAttribute("transform", `translate(${m.x} ${m.y}) rotate(${rot}) scale(${m.size * (0.2 + 0.8 * k)})`);
-    });
+    // logo moves left; the text window follows it, the text itself stays put
+    A($("logoPos"), [{ transform: "translateX(195.778%)" }, { transform: "translateX(0%)" }], 4.3, 1.0, E.inOut);
+    A($("textClip"), [{ transform: "translateX(35.339%)" }, { transform: "translateX(0%)" }], 4.3, 1.0, E.inOut);
+    A($("textInner"), [{ transform: "translateX(-35.339%)" }, { transform: "translateX(0%)" }], 4.3, 1.0, E.inOut);
+    A($("tTelkom"), [
+      { opacity: 0, transform: "translateX(-20.32%)", filter: blur(14) },
+      { opacity: 1, transform: "translateX(0%)", filter: "blur(0px)" },
+    ], 4.45, 0.9, E.out);
+    A($("tHub"), [
+      { opacity: 0, transform: "translateX(-6.673%)", filter: blur(14) },
+      { opacity: 1, transform: "translateX(0%)", filter: "blur(0px)" },
+    ], 4.55, 0.95, E.out);
 
-    // text: hidden left of the D's body, so it slides out from behind it
-    textWrap.style.clipPath = ps < 1 ? `inset(-200px -200px -200px ${611 + dx + 330}px)` : "none";
-    setText(tTelkom, outCubic(prog(t, 4.45, 5.35)));
-    setText(tHub, outCubic(prog(t, 4.55, 5.5)));
+    // finale sheen
+    A(bands[1], sweep, 5.7, 0.9, E.inOut, "none");
   }
 
-  // ---------- playback ----------
-  let t0 = 0, raf = 0;
-  function frame(now) {
-    const t = (now - t0) / 1000;
-    render(t);
-    if (t < END) raf = requestAnimationFrame(frame);
+  // Door shape follows the same clock (only redrawn while the door moves)
+  const clamp = (v) => Math.min(1, Math.max(0, v));
+  const prog = (t, a, b) => clamp((t - a) / (b - a));
+  const outCubic = (x) => 1 - Math.pow(1 - x, 3);
+  const inOutCubic = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+  const doorAt = (t) => outCubic(prog(t, 2.3, 2.6)) * 0.14 + 0.86 * inOutCubic(prog(t, 2.8, 3.6));
+
+  let T0 = 0, raf = 0;
+  function tick() {
+    const t = (document.timeline.currentTime - T0) / 1000;
+    setDoor(doorAt(t));
+    if (t < 3.7) raf = requestAnimationFrame(tick);
   }
-  function play() {
+  // warmup: on first load the clock starts a little later, so the browser can prepare
+  // every layer while the screen is still dark (otherwise the first frames stutter)
+  function play(warmup = 0) {
     cancelAnimationFrame(raf);
-    render(0);
-    t0 = performance.now();
-    raf = requestAnimationFrame(frame);
+    fitFlood();
+    build();
+    lastK = -1;
+    setDoor(0);
+    T0 = document.timeline.currentTime + warmup;
+    anims.forEach((a) => (a.startTime = T0));   // one shared clock for every layer
+    raf = requestAnimationFrame(tick);
+  }
+  function freeze(t) {
+    fitFlood();
+    build();
+    anims.forEach((a) => { a.pause(); a.currentTime = t * 1000; });
+    lastK = -1;
+    setDoor(doorAt(t));
   }
 
-  fit();
-  addEventListener("resize", () => { fit(); });
-  render(0);
+  addEventListener("resize", fitFlood);
 
   // #t=3.2 freezes the animation at that second (for checking a single frame)
   const frozen = location.hash.match(/t=([\d.]+)/);
-  if (frozen) render(parseFloat(frozen[1]));
-  else play();
+  if (frozen) freeze(parseFloat(frozen[1]));
+  else play(400);
 
   // R = replay, F = full screen
   addEventListener("keydown", (e) => {
@@ -384,7 +437,7 @@
   });
 
   // hide the cursor when the mouse is still
-  let idleTimer;
+  let idleTimer = setTimeout(() => document.body.classList.add("idle"), 1500);
   addEventListener("mousemove", () => {
     document.body.classList.remove("idle");
     clearTimeout(idleTimer);
