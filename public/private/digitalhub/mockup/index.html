@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Telkom Digital Hub Mockup</title>
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #1b130c;
+  }
+  body.idle { cursor: none; }
+
+  /* The room photo (1672 x 941). Sized in real pixels by fit() so nothing is
+     drawn bigger than it is shown; children use percentages of the photo. */
+  #scene {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 56.28vw;
+    overflow: hidden;
+  }
+  #room {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* TV screen area in the photo (incl. its light edge pixels): x 308.5, y 96.5, 1056 x 526 */
+  #screen {
+    position: absolute;
+    left: 18.451%;
+    top: 10.2551%;
+    width: 63.1579%;
+    height: 55.898%;
+    background: #111111;
+    overflow: hidden;
+  }
+  #anim {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    pointer-events: none;
+  }
+  /* glass: faint diagonal reflection + soft edge shading */
+  #glass {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(118deg,
+      rgba(255, 255, 255, 0.07) 0%,
+      rgba(255, 255, 255, 0.025) 34%,
+      rgba(255, 255, 255, 0) 34.5%,
+      rgba(255, 255, 255, 0) 100%);
+    box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.28);
+  }
+
+  /* light from the screen falling on the wall once the screen turns bright */
+  #spill {
+    position: absolute;
+    left: 6%;
+    top: -12%;
+    width: 88%;
+    height: 98%;
+    pointer-events: none;
+    background: radial-gradient(closest-side, rgba(255, 246, 236, 0.55), rgba(255, 246, 236, 0) 100%);
+    opacity: 0;
+  }
+</style>
+</head>
+<body>
+  <div id="scene">
+    <img id="room" src="/private/digitalhub/mockup/room.jpg" alt="Ruang rapat dengan layar TV yang menampilkan logo Telkom Digital Hub" width="1672" height="941">
+    <div id="spill"></div>
+    <div id="screen">
+      <iframe id="anim" title="Animasi logo Telkom Digital Hub" tabindex="-1" scrolling="no"></iframe>
+      <div id="glass"></div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const W = 1672, H = 941;
+  const TV = { x: 308.5, y: 96.5, w: 1056, h: 526 };
+  const ANIM_URL = "/private/digitalhub/index.html";
+
+  const scene = document.getElementById("scene");
+  const room = document.getElementById("room");
+  const anim = document.getElementById("anim");
+  const spill = document.getElementById("spill");
+
+  // Fill the screen with the room, but never crop the TV.
+  function fit() {
+    const vw = innerWidth, vh = innerHeight;
+    const cover = Math.max(vw / W, vh / H);
+    const tvFits = Math.min(vw / (TV.w * 1.06), vh / (TV.h * 1.2));
+    const s = Math.min(cover, tvFits);
+    const sw = W * s, sh = H * s;
+    const cx = (TV.x + TV.w / 2) * s, cy = (TV.y + TV.h / 2) * s;
+    const place = (view, size, center) =>
+      size > view ? Math.min(0, Math.max(view - size, view / 2 - center)) : (view - size) / 2;
+    scene.style.width = `${sw}px`;
+    scene.style.height = `${sh}px`;
+    scene.style.left = `${place(vw, sw, cx)}px`;
+    scene.style.top = `${place(vh, sh, cy)}px`;
+  }
+  fit();
+  addEventListener("resize", fit);
+
+  // The screen animation starts 0.4s after its page loads; the flood of light
+  // runs from 3.2s to 4.4s of its timeline. Light the wall in step with it.
+  let spillAnim;
+  anim.addEventListener("load", () => {
+    spillAnim?.cancel();
+    spillAnim = spill.animate([{ opacity: 0 }, { opacity: 1 }], {
+      delay: 3600, duration: 1200, easing: "cubic-bezier(0.65, 0, 0.35, 1)", fill: "both",
+    });
+  });
+
+  // #t=3.2 freezes screen and room light at that second (for checking a single frame)
+  const frozen = location.hash.match(/t=([\d.]+)/);
+  if (frozen) {
+    anim.addEventListener("load", () => {
+      spillAnim.pause();
+      spillAnim.currentTime = parseFloat(frozen[1]) * 1000 + 400;
+    });
+  }
+
+  // Turn the TV on once the room is visible
+  function start() { setTimeout(() => { anim.src = ANIM_URL + (frozen ? location.hash : ""); }, frozen ? 0 : 500); }
+  (room.decode ? room.decode() : Promise.resolve()).then(start, start);
+
+  // R = replay, F = full screen
+  addEventListener("keydown", (e) => {
+    if (e.key === "r" || e.key === "R") {
+      spillAnim?.cancel();
+      anim.contentWindow?.location.reload();
+    }
+    if (e.key === "f" || e.key === "F") {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen?.();
+    }
+  });
+
+  // hide the cursor when the mouse is still
+  let idleTimer = setTimeout(() => document.body.classList.add("idle"), 1500);
+  addEventListener("mousemove", () => {
+    document.body.classList.remove("idle");
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => document.body.classList.add("idle"), 1500);
+  });
+})();
+</script>
+</body>
+</html>
