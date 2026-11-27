@@ -29,7 +29,7 @@ function Nav({ path = '/' }) {
 
       <div className={styles.inner}>
         <a href="/" className={styles.logoLink}>
-          <span className={styles.logo}>nando.works</span>
+          <span className={styles.logo}>nando-studio.com</span>
         </a>
 
         {/* Desktop links */}
