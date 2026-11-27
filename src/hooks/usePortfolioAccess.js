@@ -1,6 +1,6 @@
 const KEY = 'mitra_bukalapak_access';
 const DURATION = 48 * 60 * 60 * 1000;
-const PASSWORD = 'nando.works.exclusive';
+const PASSWORD = 'nando.exclusive';
 
 function checkUnlocked() {
   try {
